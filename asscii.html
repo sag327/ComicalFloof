@@ -134,10 +134,11 @@
    ============================================================ */
 var ASSCII = (function () {
   var W = 48, H = 16;          // canvas size in characters
-  var OX = 1;                  // donkey x offset on the canvas
+  var GROUND = H - 2;          // first ground row; art rests on the row above
 
   function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
   function chance(p) { return Math.random() < p; }
+  function rand(lo, hi) { return lo + Math.floor(Math.random() * (hi - lo + 1)); }
 
   function blank() {
     var g = [];
@@ -154,60 +155,36 @@ var ASSCII = (function () {
       }
     }
   }
-
-  /* ---------- poses (E = eye, M = mane) ---------- */
-  var POSES = {
-    standing: {
-      top: 1,
-      art: [
-        "",
-        "",
-        "",
-        "                       /        \\__",
-        "         ____________.'    E       ''-.",
-        "     .-''           MM                 \\",
-        "     |              MM          .__  o  )",
-        "     |              MM       .-'   '---'",
-        "     |                     /",
-        "     |      ________      |"
-      ],
-      back: 4,
-      ears: { row: 0, col: 23, set: [
-        ["   /|  /|", "  / | / |", " /  |/  |"],
-        ["   /|", "  / |  ,--.", " /  | /  _.'"],
-        ["  |\\  |\\", "  | \\ | \\", "  |  \\|  \\"]
-      ] },
-      mouth: { row: 7, col: 40 },
-      fly: { row: 3, col: 42 }
-    },
-    grazing: {
-      top: 5,
-      art: [
-        "         _______________",
-        "     .-''               ''-.",
-        "     |              MM        '.",
-        "     |              MM          \\",
-        "     |                MM         '     '.",
-        "     |      ________       '.        E   \\",
-        "                             \\            |",
-        "                              '.     __  o )",
-        "                                '---'  '--'"
-      ],
-      back: 0,
-      ears: { row: 2, col: 34, set: [
-        ["   /|/|", "  / / |"],
-        [" |\\ |\\", " | \\| \\"]
-      ] },
-      mouth: null,
-      fly: { row: 3, col: 43 }
+  // True if a w-by-h box at (row, col) stays clear of everything drawn so far.
+  function free(g, row, col, w, h, margin) {
+    if (row < 0 || col < 0 || col + w > W || row + h > GROUND) return false;
+    for (var r = row; r < row + h; r++) {
+      var lo = -1, hi = -1;
+      for (var c = 0; c < W; c++) { if (g[r][c] !== ' ') { if (lo < 0) lo = c; hi = c; } }
+      if (lo >= 0 && col <= hi + margin && col + w - 1 >= lo - margin) return false;
     }
-  };
+    return true;
+  }
+  function width(lines) { return Math.max.apply(null, lines.map(function (l) { return l.length; })); }
+  // Try random spots for a piece of scenery; draw it at the first clear one.
+  function place(g, lines, rowLo, rowHi, margin) {
+    var w = width(lines);
+    for (var i = 0; i < 30; i++) {
+      var r = rand(rowLo, rowHi), c = rand(0, W - w);
+      if (free(g, r, c, w, lines.length, margin)) { put(g, r, c, lines); return true; }
+    }
+    return false;
+  }
 
-  /* ---------- interchangeable parts ---------- */
+  /* ---------- shared parts ---------- */
   var EYES = ['o', 'o', 'o', 'O', '^', '-', '*', '='];
   var MANES = ['}}', '))', '%%', '||', '\\\\', '##'];
 
-  // 22 wide, 3 tall; sits under the belly
+  var EARS_TALL = [
+    ["   /|  /|", "  / | / |", " /  |/  |"],
+    ["   /|", "  / |  ,--.", " /  | /  _.'"],
+    ["  |\\  |\\", "  | \\ | \\", "  |  \\|  \\"]
+  ];
   var LEGS = [
     ["|  |  |        |  |  |",
      "|  |  |        |  |  |",
@@ -222,7 +199,6 @@ var ASSCII = (function () {
      "|  |  |        |  |/__/",
      "|__|__|        |__|"]
   ];
-
   // drawn so the last character of the first row touches the rump
   var TAILS = [
     ["    /", "   /", "  ~"],
@@ -231,55 +207,201 @@ var ASSCII = (function () {
     [" ~-._"]
   ];
 
+  /* ---------- poses (drawn facing right; E = eye, M = mane) ----------
+     rows:  number of canvas rows the pose occupies (it sits on the ground)
+     x:     [min, max] horizontal offset
+     back:  art row of the back line, for things that sit on it        */
+  var POSES = {
+    standing: {
+      weight: 30, rows: 13, x: [1, 3], back: 4,
+      art: [
+        "", "", "",
+        "                       /        \\__",
+        "         ____________.'    E       ''-.",
+        "     .-''           MM                 \\",
+        "     |              MM          .__  o  )",
+        "     |              MM       .-'   '---'",
+        "     |                     /",
+        "     |      ________      |"
+      ],
+      ears: { row: 0, col: 23, set: EARS_TALL },
+      legs: { row: 10, col: 5, set: LEGS },
+      tail: { row: 6, set: TAILS },
+      mouth: { row: 7, col: 40 },
+      fly: { row: 2, col: 41 }
+    },
+    grazing: {
+      weight: 16, rows: 9, x: [1, 2], back: 0,
+      art: [
+        "         _______________",
+        "     .-''               ''-.",
+        "     |              MM        '.",
+        "     |              MM          \\",
+        "     |                MM         '     '.",
+        "     |      ________       '.        E   \\",
+        "                             \\            |",
+        "                              '.     __  o )",
+        "                                '---'  '--'"
+      ],
+      ears: { row: 2, col: 34, set: [
+        ["   /|/|", "  / / |"],
+        [" |\\ |\\", " | \\| \\"]
+      ] },
+      legs: { row: 6, col: 5, set: LEGS.slice(0, 3) },
+      tail: { row: 2, set: TAILS },
+      fly: { row: 2, col: 43 }
+    },
+    resting: {
+      weight: 14, rows: 10, x: [1, 3], back: 4,
+      art: [
+        "", "", "",
+        "                       /        \\__",
+        "         ____________.'    E       ''-.",
+        "     .-''           MM                 \\",
+        "    /               MM          .__  o  )",
+        " ~-(                MM       .-'   '---'",
+        "    \\     __________       _/",
+        "     '---(______(____'-----(_____)"
+      ],
+      ears: { row: 0, col: 23, set: EARS_TALL },
+      mouth: { row: 7, col: 40 },
+      fly: { row: 2, col: 41 }
+    },
+    sitting: {
+      weight: 14, rows: 14, x: [1, 4], props: true,
+      art: [
+        "", "", "",
+        "               /        \\__",
+        "             .'    E       ''-.",
+        "           .'MM                \\",
+        "          / MM          .__  o  )",
+        "         / MM        .-'   '---'",
+        "        /           /",
+        "      .'           |",
+        "     /     .--.    | |",
+        "    |     /    \\   | |",
+        " ~-.|    |      |  | |",
+        "    '.___|______|__|_|"
+      ],
+      ears: { row: 0, col: 15, set: EARS_TALL },
+      mouth: { row: 7, col: 32 },
+      fly: { row: 2, col: 33 }
+    },
+    portrait: {
+      weight: 14, rows: 14, x: [8, 10], portrait: true,
+      art: [
+        "   /\\                    /\\",
+        "  /  \\                  /  \\",
+        " |    \\                /    |",
+        " |     \\    MMMMMM    /     |",
+        "  \\     '.__MMMMMM__.'     /",
+        "   '.     /        \\     .'",
+        "     '-._|  E    E  |_.-'",
+        "         |          |",
+        "         |          |",
+        "          \\  .--.  /",
+        "          | ( oo ) |",
+        "           \\ '--' /",
+        "       .----'----'----.",
+        "      /                \\"
+      ]
+    },
+    foal: {
+      weight: 12, rows: 9, x: [3, 22], props: true, back: 3,
+      art: [
+        "            /| /|",
+        "           / |/ |",
+        "          /      \\_",
+        "    _____.'  E     '.",
+        "  .'    MM      _  o )",
+        " ~|     MM   .-' '--'",
+        "  |   ____   |",
+        "  |  |    |  |",
+        "  |__|    |__|"
+      ],
+      fly: { row: 2, col: 23 }
+    }
+  };
+  var POSE_NAMES = Object.keys(POSES);
+  function pickPose() {
+    var total = 0, i;
+    for (i = 0; i < POSE_NAMES.length; i++) total += POSES[POSE_NAMES[i]].weight;
+    var n = Math.random() * total;
+    for (i = 0; i < POSE_NAMES.length; i++) {
+      n -= POSES[POSE_NAMES[i]].weight;
+      if (n < 0) return POSE_NAMES[i];
+    }
+    return POSE_NAMES[0];
+  }
+
   /* ---------- scenery ---------- */
   var SUN   = [" \\ | /", "- (_) -", " / | \\"];
   var MOON  = ["  .-,", " (  (", "  '-'"];
   var CLOUD = ["   .--.", " .(    ).", "(___.___)"];
+  var PROPS = [
+    [".------.", "|//////|", "'------'"],                                  // hay bale
+    ["|--|--|--|", "|--|--|--|", "|  |  |  |"],                             // fence
+    ["  .@@@.", " @@@@@@@", "  '@@@'", "    |", "    |"],                  // tree
+    ["  ___", " |   |", " |oat|", " '---'"],                              // feed bucket
+    [" \\|/", "--@--", "  |", " \\|"]                                      // tall flower
+  ];
 
   function scenery(g, pose, night) {
-    var tall = pose === POSES.standing;
+    if (pose.props && chance(0.75)) {
+      var prop = pick(PROPS);
+      place(g, prop, GROUND - prop.length, GROUND - prop.length, 2);
+    }
     if (night) {
-      put(g, 0, 2 + Math.floor(Math.random() * 6), MOON);
-      var n = 6 + Math.floor(Math.random() * 6);
-      for (var i = 0; i < n; i++) {
-        var r = Math.floor(Math.random() * 4);
-        var c = Math.floor(Math.random() * (tall ? 22 : W));
-        if (g[r][c] === ' ' && g[r][Math.max(0, c - 1)] === ' ' && g[r][Math.min(W - 1, c + 1)] === ' ') {
-          g[r][c] = pick(['*', '.', '+', '.', "'"]);
-        }
+      place(g, MOON, 0, 1, 1);
+      for (var i = 0; i < 16; i++) {
+        var r = rand(0, 5), c = rand(0, W - 1);
+        if (free(g, r, c, 1, 1, 3)) g[r][c] = pick(['*', '.', '+', '.', "'"]);
       }
     } else {
-      var kind = pick(['sun', 'sun', 'cloud', 'both', 'none']);
-      if (kind === 'sun' || kind === 'both') put(g, 0, 2 + Math.floor(Math.random() * 4), SUN);
-      if (kind === 'cloud') put(g, 0, 3 + Math.floor(Math.random() * 8), CLOUD);
-      if (kind === 'both') put(g, 0, 12, CLOUD);
-      if (!tall && chance(0.6)) put(g, pick([0, 1]), 28 + Math.floor(Math.random() * 8), CLOUD);
-      if (chance(0.35)) put(g, 3, 14 + Math.floor(Math.random() * 4), ["v  v"]);
+      var kind = pick(['sun', 'sun', 'cloud', 'both', 'two', 'none']);
+      if (kind === 'sun' || kind === 'both') place(g, SUN, 0, 1, 1);
+      if (kind !== 'sun' && kind !== 'none') place(g, CLOUD, 0, 1, 2);
+      if (kind === 'two') place(g, CLOUD, 0, 2, 2);
+      if (chance(0.35)) place(g, ["v  v"], 1, 4, 3);
     }
-    // ground
-    var gr = H - 2;
     for (var c2 = 0; c2 < W; c2++) {
-      g[gr][c2] = pick(['"', '"', '"', ',', ',', '.']);
-      if (chance(0.12)) g[gr + 1][c2] = pick(['.', ',', "'"]);
+      g[GROUND][c2] = pick(['"', '"', '"', ',', ',', '.']);
+      if (chance(0.12)) g[GROUND + 1][c2] = pick(['.', ',', "'"]);
     }
   }
 
   /* ---------- extras ---------- */
-  function extras(g, pose, top) {
+  function extras(g, pose, top, ox) {
     var list = [];
-    if (chance(0.28)) {                      // saddle blanket
-      put(g, top + pose.back + 1, OX + 10, ["|::::::|", " '~~~~'"], true);
-      list.push('blanket');
+    if (pose.portrait) {
+      var hat = pick(['straw', 'top', 'crown', null, null, null]);
+      if (hat === 'straw') put(g, top + 2, ox + 8, ["   .------.", "_.'--------'._"], true);
+      if (hat === 'top') put(g, top, ox + 10, [" .------.", " |      |", " |======|", "_|______|_"], true);
+      if (hat === 'crown') put(g, top + 3, ox + 12, ["@*@*@*"], true);
+      if (hat) list.push(hat);
+      if (chance(0.3)) {
+        var row = g[top + 6];
+        put(g, top + 6, ox + 10, ["-(" + row[ox + 12] + ")--(" + row[ox + 17] + ")-"], true);
+        list.push('specs');
+      }
+      if (chance(0.3)) { put(g, top + 12, ox + 12, ["{>o<}"], true); list.push('bowtie'); }
+      return list;
     }
-    if (chance(0.22)) {                      // small bird on the back
-      put(g, top + pose.back - 1, OX + 12, ["('>"]);
+    if (pose.back !== undefined && pose !== POSES.foal) {
+      var load = pick(['blanket', 'blanket', 'baskets', null, null, null, null]);
+      if (load === 'blanket') put(g, top + pose.back + 1, ox + 10, ["|::::::|", " '~~~~'"], true);
+      if (load === 'baskets') put(g, top + pose.back + 1, ox + 9, ["|######|", "|######|", "'------'"], true);
+      if (load) list.push(load);
+    }
+    if (pose.back !== undefined && chance(0.22)) {
+      put(g, top + pose.back - 1, ox + (pose === POSES.foal ? 5 : 12), ["('>"]);
       list.push('bird');
     }
-    if (pose.mouth && chance(0.25)) {        // flower in the mouth
-      put(g, top + pose.mouth.row, OX + pose.mouth.col, ["-<@"]);
+    if (pose.mouth && chance(0.25)) {
+      put(g, top + pose.mouth.row, ox + pose.mouth.col, ["-<@"]);
       list.push('flower');
-    } else if (chance(0.2)) {                // butterfly by the nose
-      put(g, top + pose.fly.row - 1, OX + pose.fly.col, ["}|{"]);
+    } else if (pose.fly && chance(0.2)) {
+      put(g, top + pose.fly.row, ox + pose.fly.col, ["}|{"]);
       list.push('butterfly');
     }
     return list;
@@ -304,49 +426,59 @@ var ASSCII = (function () {
       "pretending not to notice you", "thinking about hay", "having declined to move"],
     grazing: ["at luncheon", "sampling the clover", "among the good grass", "taking a light supper",
       "inspecting the lawn", "dining alone", "reviewing the meadow"],
+    resting: ["reclining", "at rest", "declining all invitations", "after luncheon",
+      "observing a day of rest", "not to be disturbed", "in the long grass"],
+    sitting: ["seated", "awaiting an explanation", "sitting for the artist", "at the recital",
+      "holding the floor", "politely unconvinced"],
+    portrait: ["a formal portrait", "study of the head", "facing the viewer", "full face",
+      "the official likeness", "self-possessed"],
+    foal: ["a young talent", "early work", "at four months", "the debutante", "small but certain",
+      "first season"],
     night: ["by moonlight", "beneath the stars", "keeping late hours", "nocturne"],
     bird: ["with a small friend", "and companion"],
     flower: ["bearing a flower", "feeling romantic"],
     butterfly: ["with visitor", "and the butterfly"],
-    blanket: ["in formal dress", "dressed for the occasion"]
+    blanket: ["in formal dress", "dressed for the occasion"],
+    baskets: ["returning from market", "bearing provisions"],
+    straw: ["in a good straw hat", "dressed for the garden party"],
+    top: ["in evening dress", "on the way to the opera"],
+    crown: ["crowned with flowers", "queen of the May"],
+    specs: ["the scholar", "reading the fine print"],
+    bowtie: ["black tie", "dressed for dinner"]
   };
 
   function generate() {
-    var poseName = chance(0.7) ? 'standing' : 'grazing';
+    var poseName = pickPose();
     var pose = POSES[poseName];
-    var top = pose.top;
+    var top = GROUND - pose.rows;
+    var ox = rand(pose.x[0], pose.x[1]);
     var night = chance(0.3);
     var g = blank();
 
-    scenery(g, pose, night);
-
     // body
     var eye = pick(EYES), mane = pick(MANES);
-    var art = pose.art.map(function (line) {
-      return line.replace(/MM/g, mane).replace('E', eye);
-    });
-    put(g, top, OX, art);
+    put(g, top, ox, pose.art.map(function (line) {
+      return line.replace(/MM/g, mane).replace(/E/g, eye);
+    }));
+    if (pose.ears) put(g, top + pose.ears.row, ox + pose.ears.col, pick(pose.ears.set));
+    if (pose.legs) put(g, top + pose.legs.row, ox + pose.legs.col, pick(pose.legs.set), true);
+    if (pose.tail) put(g, top + pose.tail.row, ox, pick(pose.tail.set));
 
-    // ears, legs, tail
-    put(g, top + pose.ears.row, OX + pose.ears.col, pick(pose.ears.set));
-    var bodyRows = poseName === 'standing' ? 10 : 6;
-    put(g, top + bodyRows, OX + 5, pick(poseName === 'standing' ? LEGS : LEGS.slice(0, 3)), true);
-    var tailRow = poseName === 'standing' ? 6 : 2;
-    put(g, top + tailRow, OX, pick(TAILS));
-
-    var ex = extras(g, pose, top);
+    var ex = extras(g, pose, top, ox);
+    scenery(g, pose, night);
     if (chance(0.5)) g = mirror(g);
 
     // caption
     var pool = DOING[poseName];
-    if (night && chance(0.5)) pool = DOING.night;
+    if (night && chance(0.4)) pool = DOING.night;
     if (ex.length && chance(0.6)) pool = DOING[pick(ex)];
     var number = String(1 + Math.floor(Math.random() * 9999)).padStart(4, '0');
 
     return {
+      pose: poseName,
       text: g.map(function (row) { return row.join('').replace(/\s+$/, ''); }).join('\n'),
       title: pick(NAMES) + ', ' + pick(pool),
-      meta: 'No. ' + number + ' · ASCII on screen'
+      meta: 'No. ' + number + ' \u00b7 ASCII on screen'
     };
   }
 
