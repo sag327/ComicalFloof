@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ASSCII</title>
+<style>
+  :root {
+    --paper: #f4efe4;
+    --mat: #fbf8f1;
+    --ink: #2b2620;
+    --soft: #8a7f70;
+    --line: #d9d0be;
+    --accent: #a4532a;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #17150f;
+      --mat: #1f1c15;
+      --ink: #eadfc8;
+      --soft: #8f866f;
+      --line: #3a3528;
+      --accent: #e0a070;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(14px, 3vh, 28px);
+    padding: 24px 12px;
+  }
+  header { text-align: center; }
+  h1 {
+    margin: 0;
+    font-weight: 400;
+    font-size: clamp(26px, 5vw, 44px);
+    letter-spacing: 0.42em;
+    margin-right: -0.42em; /* balance the trailing letter-space */
+  }
+  .tagline {
+    margin: 8px 0 0;
+    font-style: italic;
+    color: var(--soft);
+    font-size: clamp(12px, 1.8vw, 15px);
+  }
+  .frame {
+    appearance: none;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    background: var(--mat);
+    border: 1px solid var(--line);
+    outline: 1px solid var(--line);
+    outline-offset: 6px;
+    padding: clamp(10px, 2.5vw, 28px) clamp(8px, 2.5vw, 30px);
+    margin: 6px;
+    overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .frame:focus-visible { outline: 2px solid var(--accent); outline-offset: 6px; }
+  #donkey {
+    margin: 0;
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", "Courier New", monospace;
+    font-size: clamp(7px, 2.9vw, 17px);
+    line-height: 1.18;
+    white-space: pre;
+    text-align: left;
+    user-select: none;
+    will-change: transform, opacity;
+  }
+  .plaque { text-align: center; min-height: 3.2em; }
+  #title { margin: 0; font-size: clamp(15px, 2.4vw, 19px); }
+  #meta {
+    margin: 5px 0 0;
+    color: var(--soft);
+    font-size: clamp(11px, 1.6vw, 13px);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  footer {
+    color: var(--soft);
+    font-size: clamp(11px, 1.6vw, 13px);
+    font-style: italic;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+  }
+  #copy {
+    font: inherit;
+    color: var(--accent);
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+</style>
+</head>
+<body>
+  <header>
+    <h1>ASSCII</h1>
+    <p class="tagline">tasteful donkeys, rendered in plain text</p>
+  </header>
+
+  <button class="frame" id="frame" aria-label="Donkey portrait. Activate for a new donkey.">
+    <pre id="donkey" aria-hidden="true"></pre>
+  </button>
+
+  <div class="plaque" aria-live="polite">
+    <p id="title"></p>
+    <p id="meta"></p>
+  </div>
+
+  <footer>
+    <span>click the donkey for another</span>
+    <button id="copy" type="button">copy this one</button>
+  </footer>
+
+<script>
+/* ============================================================
+   ASSCII donkey generator
+   Each donkey is assembled on a character grid from hand-drawn
+   parts (pose, ears, mane, tail, legs, extras, scenery), drawn
+   facing right, then optionally mirrored.
+   ============================================================ */
+var ASSCII = (function () {
+  var W = 48, H = 16;          // canvas size in characters
+  var OX = 1;                  // donkey x offset on the canvas
+
+  function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
+  function chance(p) { return Math.random() < p; }
+
+  function blank() {
+    var g = [];
+    for (var r = 0; r < H; r++) { g.push(new Array(W).fill(' ')); }
+    return g;
+  }
+  // Draw rows of text at (row, col). Spaces are transparent unless solid.
+  function put(g, row, col, lines, solid) {
+    for (var i = 0; i < lines.length; i++) {
+      for (var j = 0; j < lines[i].length; j++) {
+        var ch = lines[i][j], r = row + i, c = col + j;
+        if (r < 0 || r >= H || c < 0 || c >= W) continue;
+        if (ch !== ' ' || solid) g[r][c] = ch;
+      }
+    }
+  }
+
+  /* ---------- poses (E = eye, M = mane) ---------- */
+  var POSES = {
+    standing: {
+      top: 1,
+      art: [
+        "",
+        "",
+        "",
+        "                       /        \\__",
+        "         ____________.'    E       ''-.",
+        "     .-''           MM                 \\",
+        "     |              MM          .__  o  )",
+        "     |              MM       .-'   '---'",
+        "     |                     /",
+        "     |      ________      |"
+      ],
+      back: 4,
+      ears: { row: 0, col: 23, set: [
+        ["   /|  /|", "  / | / |", " /  |/  |"],
+        ["   /|", "  / |  ,--.", " /  | /  _.'"],
+        ["  |\\  |\\", "  | \\ | \\", "  |  \\|  \\"]
+      ] },
+      mouth: { row: 7, col: 40 },
+      fly: { row: 3, col: 42 }
+    },
+    grazing: {
+      top: 5,
+      art: [
+        "         _______________",
+        "     .-''               ''-.",
+        "     |              MM        '.",
+        "     |              MM          \\",
+        "     |                MM         '     '.",
+        "     |      ________       '.        E   \\",
+        "                             \\            |",
+        "                              '.     __  o )",
+        "                                '---'  '--'"
+      ],
+      back: 0,
+      ears: { row: 2, col: 34, set: [
+        ["   /|/|", "  / / |"],
+        [" |\\ |\\", " | \\| \\"]
+      ] },
+      mouth: null,
+      fly: { row: 3, col: 43 }
+    }
+  };
+
+  /* ---------- interchangeable parts ---------- */
+  var EYES = ['o', 'o', 'o', 'O', '^', '-', '*', '='];
+  var MANES = ['}}', '))', '%%', '||', '\\\\', '##'];
+
+  // 22 wide, 3 tall; sits under the belly
+  var LEGS = [
+    ["|  |  |        |  |  |",
+     "|  |  |        |  |  |",
+     "|__|__|        |__|__|"],
+    ["|  |  |        |  |  |",
+     "|  |  |        |  |  |",
+     "|##|##|        |##|##|"],
+    ["|  |\\  \\      /  /|  |",
+     "|  | \\  \\    /  / |  |",
+     "|__|  \\__\\  /__/  |__|"],
+    ["|  |  |        |  | /  /",
+     "|  |  |        |  |/__/",
+     "|__|__|        |__|"]
+  ];
+
+  // drawn so the last character of the first row touches the rump
+  var TAILS = [
+    ["    /", "   /", "  ~"],
+    ["    /", "   /", "  /", " ~"],
+    ["    {", "   {", "  {", "  *"],
+    [" ~-._"]
+  ];
+
+  /* ---------- scenery ---------- */
+  var SUN   = [" \\ | /", "- (_) -", " / | \\"];
+  var MOON  = ["  .-,", " (  (", "  '-'"];
+  var CLOUD = ["   .--.", " .(    ).", "(___.___)"];
+
+  function scenery(g, pose, night) {
+    var tall = pose === POSES.standing;
+    if (night) {
+      put(g, 0, 2 + Math.floor(Math.random() * 6), MOON);
+      var n = 6 + Math.floor(Math.random() * 6);
+      for (var i = 0; i < n; i++) {
+        var r = Math.floor(Math.random() * 4);
+        var c = Math.floor(Math.random() * (tall ? 22 : W));
+        if (g[r][c] === ' ' && g[r][Math.max(0, c - 1)] === ' ' && g[r][Math.min(W - 1, c + 1)] === ' ') {
+          g[r][c] = pick(['*', '.', '+', '.', "'"]);
+        }
+      }
+    } else {
+      var kind = pick(['sun', 'sun', 'cloud', 'both', 'none']);
+      if (kind === 'sun' || kind === 'both') put(g, 0, 2 + Math.floor(Math.random() * 4), SUN);
+      if (kind === 'cloud') put(g, 0, 3 + Math.floor(Math.random() * 8), CLOUD);
+      if (kind === 'both') put(g, 0, 12, CLOUD);
+      if (!tall && chance(0.6)) put(g, pick([0, 1]), 28 + Math.floor(Math.random() * 8), CLOUD);
+      if (chance(0.35)) put(g, 3, 14 + Math.floor(Math.random() * 4), ["v  v"]);
+    }
+    // ground
+    var gr = H - 2;
+    for (var c2 = 0; c2 < W; c2++) {
+      g[gr][c2] = pick(['"', '"', '"', ',', ',', '.']);
+      if (chance(0.12)) g[gr + 1][c2] = pick(['.', ',', "'"]);
+    }
+  }
+
+  /* ---------- extras ---------- */
+  function extras(g, pose, top) {
+    var list = [];
+    if (chance(0.28)) {                      // saddle blanket
+      put(g, top + pose.back + 1, OX + 10, ["|::::::|", " '~~~~'"], true);
+      list.push('blanket');
+    }
+    if (chance(0.22)) {                      // small bird on the back
+      put(g, top + pose.back - 1, OX + 12, ["('>"]);
+      list.push('bird');
+    }
+    if (pose.mouth && chance(0.25)) {        // flower in the mouth
+      put(g, top + pose.mouth.row, OX + pose.mouth.col, ["-<@"]);
+      list.push('flower');
+    } else if (chance(0.2)) {                // butterfly by the nose
+      put(g, top + pose.fly.row - 1, OX + pose.fly.col, ["}|{"]);
+      list.push('butterfly');
+    }
+    return list;
+  }
+
+  /* ---------- mirroring ---------- */
+  var SWAP = { '/': '\\', '\\': '/', '(': ')', ')': '(', '<': '>', '>': '<', '{': '}', '}': '{' };
+  function mirror(g) {
+    return g.map(function (row) {
+      return row.slice().reverse().map(function (ch) { return SWAP[ch] || ch; });
+    });
+  }
+
+  /* ---------- names and captions ---------- */
+  var NAMES = ["Clementine", "Bartholomew", "Juniper", "Winifred", "Augustin", "Marigold", "Thaddeus",
+    "Beatrix", "Cornelius", "Philippa", "Ignatius", "Rosalind", "Barnaby", "Ottoline", "Leopold",
+    "Henrietta", "Montgomery", "Persimmon", "Algernon", "Dulcinea", "Sancho", "Figaro", "Esmeralda",
+    "Horatio", "Mirabelle", "Tobias", "Wilhelmina", "Fitzgerald", "Odalys", "Benedetto"];
+  var DOING = {
+    standing: ["contemplating oats", "in repose", "awaiting the post", "considering the horizon",
+      "at the edge of the meadow", "unbothered", "after a long day", "with quiet dignity",
+      "pretending not to notice you", "thinking about hay", "having declined to move"],
+    grazing: ["at luncheon", "sampling the clover", "among the good grass", "taking a light supper",
+      "inspecting the lawn", "dining alone", "reviewing the meadow"],
+    night: ["by moonlight", "beneath the stars", "keeping late hours", "nocturne"],
+    bird: ["with a small friend", "and companion"],
+    flower: ["bearing a flower", "feeling romantic"],
+    butterfly: ["with visitor", "and the butterfly"],
+    blanket: ["in formal dress", "dressed for the occasion"]
+  };
+
+  function generate() {
+    var poseName = chance(0.7) ? 'standing' : 'grazing';
+    var pose = POSES[poseName];
+    var top = pose.top;
+    var night = chance(0.3);
+    var g = blank();
+
+    scenery(g, pose, night);
+
+    // body
+    var eye = pick(EYES), mane = pick(MANES);
+    var art = pose.art.map(function (line) {
+      return line.replace(/MM/g, mane).replace('E', eye);
+    });
+    put(g, top, OX, art);
+
+    // ears, legs, tail
+    put(g, top + pose.ears.row, OX + pose.ears.col, pick(pose.ears.set));
+    var bodyRows = poseName === 'standing' ? 10 : 6;
+    put(g, top + bodyRows, OX + 5, pick(poseName === 'standing' ? LEGS : LEGS.slice(0, 3)), true);
+    var tailRow = poseName === 'standing' ? 6 : 2;
+    put(g, top + tailRow, OX, pick(TAILS));
+
+    var ex = extras(g, pose, top);
+    if (chance(0.5)) g = mirror(g);
+
+    // caption
+    var pool = DOING[poseName];
+    if (night && chance(0.5)) pool = DOING.night;
+    if (ex.length && chance(0.6)) pool = DOING[pick(ex)];
+    var number = String(1 + Math.floor(Math.random() * 9999)).padStart(4, '0');
+
+    return {
+      text: g.map(function (row) { return row.join('').replace(/\s+$/, ''); }).join('\n'),
+      title: pick(NAMES) + ', ' + pick(pool),
+      meta: 'No. ' + number + ' · ASCII on screen'
+    };
+  }
+
+  return { generate: generate, W: W, H: H };
+})();
+
+/* ============================================================
+   Page behaviour
+   ============================================================ */
+if (typeof document !== 'undefined') {
+  (function () {
+    var pre = document.getElementById('donkey');
+    var frame = document.getElementById('frame');
+    var title = document.getElementById('title');
+    var meta = document.getElementById('meta');
+    var copy = document.getElementById('copy');
+    var busy = false, current = null;
+
+    function show() {
+      current = ASSCII.generate();
+      // pad rows so the frame keeps a constant size
+      pre.textContent = current.text.split('\n').map(function (l) {
+        return l.padEnd(ASSCII.W, ' ');
+      }).join('\n');
+      title.textContent = current.title;
+      meta.textContent = current.meta;
+    }
+
+    function next() {
+      if (busy) return;
+      var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!pre.animate) { show(); return; }
+      busy = true;
+      var D = calm ? 400 : 850;
+      var frames = calm
+        ? [{ opacity: 1 }, { opacity: 0, offset: 0.5 }, { opacity: 1 }]
+        : [
+            { transform: 'rotate(0deg) scale(1)', opacity: 1 },
+            { transform: 'rotate(360deg) scale(0.12)', opacity: 0.2, offset: 0.5 },
+            { transform: 'rotate(720deg) scale(1)', opacity: 1 }
+          ];
+      var anim = pre.animate(frames, { duration: D, easing: 'ease-in-out' });
+      setTimeout(show, D / 2);
+      anim.onfinish = anim.oncancel = function () { busy = false; };
+    }
+
+    frame.addEventListener('click', next);
+
+    copy.addEventListener('click', function () {
+      if (!current) return;
+      var done = function (msg) {
+        copy.textContent = msg;
+        setTimeout(function () { copy.textContent = 'copy this one'; }, 1400);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(current.text).then(
+          function () { done('copied'); },
+          function () { done('copy failed'); }
+        );
+      } else {
+        done('copy unavailable');
+      }
+    });
+
+    show();
+  })();
+}
+if (typeof module !== 'undefined') { module.exports = ASSCII; }
+</script>
+</body>
+</html>
