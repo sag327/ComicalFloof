@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f8f4e9" />
+  <meta name="description" content="A map of America's least defensible street names. Click anywhere. Meet the nearest nonsense." />
+  <title>What the Street?! — America's finest naming mistakes</title>
+  <link rel="preconnect" href="https://tiles.openfreemap.org" crossorigin>
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.9.0/dist/maplibre-gl.css" />
+  <style>
+    :root{--paper:#f8f4e9;--ink:#252724;--muted:#777971;--red:#ff633e;--yellow:#f6c64e;--line:#e4dfd3;--white:#fffefa;--shadow:0 14px 50px #39302625}
+    *{box-sizing:border-box}html,body{height:100%;margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:var(--paper)}button,input{font:inherit}button{cursor:pointer}button:focus-visible,a:focus-visible{outline:3px solid #386acb;outline-offset:3px}
+    #map{position:fixed;inset:0;background:#e6e8d9;cursor:crosshair}.maplibregl-control-container{filter:saturate(.72)}.maplibregl-ctrl-bottom-right{bottom:3px}.maplibregl-ctrl-attrib{font-size:10px!important}
+    .topbar{position:fixed;top:0;left:0;right:0;z-index:5;display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding:22px 25px;pointer-events:none}.topbar>*{pointer-events:auto}
+    .brand{max-width:400px;background:var(--paper);padding:19px 22px 20px;border:2px solid var(--ink);border-radius:17px;box-shadow:6px 6px 0 var(--ink)}.brand h1{font-size:clamp(27px,3.3vw,43px);line-height:.99;letter-spacing:-2.3px;margin:0;font-weight:950}.brand h1 span{color:var(--red)}.brand p{font-size:12.5px;color:#555a54;margin:9px 0 0;font-weight:650;line-height:1.4}
+    .top-actions{display:flex;gap:9px;flex-wrap:wrap;justify-content:flex-end}.pill{display:flex;align-items:center;gap:9px;padding:12px 15px;background:var(--white);border:2px solid var(--ink);color:var(--ink);border-radius:100px;font-size:13px;font-weight:850;box-shadow:3px 3px 0 var(--ink);transition:transform .15s,box-shadow .15s}.pill:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink)}.pill.hot{background:var(--yellow)}.pill .emoji{font-size:17px}
+    .status{position:fixed;bottom:26px;left:24px;z-index:3;background:var(--white);border:1.5px solid var(--ink);border-radius:100px;padding:10px 15px;font-size:12px;font-weight:750;box-shadow:0 3px 10px #00000015;max-width:calc(100vw - 48px)}.status .dot{display:inline-block;width:8px;height:8px;background:#56a872;border-radius:50%;margin-right:7px}.status small{color:var(--muted)}
+    .result{position:fixed;z-index:6;bottom:25px;right:24px;width:min(384px,calc(100vw - 36px));background:var(--paper);border:2px solid var(--ink);border-radius:22px;padding:23px;box-shadow:7px 7px 0 var(--ink);transform:translateY(calc(100% + 50px));opacity:0;pointer-events:none;transition:transform .34s cubic-bezier(.2,.9,.2,1),opacity .25s}.result.open{transform:translateY(0);opacity:1;pointer-events:auto}
+    .result-top{display:flex;justify-content:space-between;align-items:center;gap:8px}.eyebrow{font-size:10px;letter-spacing:2.1px;font-weight:900;text-transform:uppercase;color:#bd5438}.close{border:0;border-radius:50%;background:#eae5d9;width:30px;height:30px;font-size:19px;line-height:1}.result h2{font-size:clamp(30px,4vw,42px);line-height:1.04;letter-spacing:-1.8px;margin:17px 0 8px;font-weight:950;overflow-wrap:break-word}.location{font-size:13px;color:#666962;font-weight:650}.distance{display:flex;align-items:center;gap:11px;margin:18px 0 15px;padding-bottom:17px;border-bottom:1px solid var(--line)}.distance strong{font-size:31px;letter-spacing:-1px}.distance span{font-size:11px;line-height:1.3;color:var(--muted)}.joke{font-size:14px;line-height:1.5;min-height:43px;font-weight:550;margin:0 0 16px}.meter{display:flex;gap:4px;align-items:center;margin:10px 0 17px}.meter span{font-size:11px;font-weight:800;margin-right:auto}.meter i{display:block;width:22px;height:9px;border-radius:2px;background:#ddd8cb}.meter i.filled{background:var(--red)}.result-buttons{display:grid;grid-template-columns:1fr 1fr;gap:8px}.action{border:2px solid var(--ink);background:#fffefa;padding:12px 10px;border-radius:10px;font-size:12px;font-weight:850}.action.primary{background:var(--yellow)}.action:hover{filter:brightness(.96)}.fine{font-size:10px;color:#77766d;margin:13px 0 0;line-height:1.45}.fine a{color:inherit}
+    .instruction{position:fixed;z-index:3;left:50%;top:48%;transform:translate(-50%,-50%);background:var(--paper);border:2px dashed #555a54;padding:12px 19px;border-radius:100px;font-size:13px;font-weight:850;box-shadow:0 5px 22px #20201520;white-space:nowrap;pointer-events:none;transition:opacity .3s}.instruction.gone{opacity:0}
+    .pin,.found-pin{width:27px;height:27px;border:3px solid white;border-radius:50% 50% 50% 4px;background:var(--red);transform:rotate(-45deg);box-shadow:0 2px 3px #0005}.found-pin{width:34px;height:34px;background:var(--yellow);border:3px solid var(--ink);display:grid;place-items:center}.found-pin b{transform:rotate(45deg);font-size:17px;line-height:1}
+    .overlay{position:fixed;z-index:10;inset:0;background:#151615b8;display:grid;place-items:center;padding:24px}.overlay[hidden]{display:none}.modal{max-width:510px;width:100%;background:var(--paper);border:3px solid var(--ink);border-radius:22px;padding:28px;box-shadow:10px 10px 0 var(--yellow);position:relative}.modal h2{font-size:31px;letter-spacing:-1px;margin:0 0 12px}.modal p{font-size:14px;line-height:1.65}.modal .close{position:absolute;right:16px;top:16px}.modal code{background:#e8e2d4;padding:2px 6px;border-radius:4px}.mini{color:#72746b;font-size:12px!important}.secret{font-family:ui-monospace,monospace;letter-spacing:1px;color:var(--red)}
+    @media(max-width:710px){.topbar{padding:12px;align-items:flex-start;gap:8px}.brand{padding:13px 13px 14px;border-radius:12px;max-width:228px;box-shadow:3px 3px 0 var(--ink)}.brand h1{font-size:27px;letter-spacing:-1.4px}.brand p{font-size:10px;margin-top:5px}.top-actions{display:flex;flex-direction:column;align-items:flex-end;gap:7px}.pill{padding:9px 11px;font-size:11px;box-shadow:2px 2px 0 var(--ink)}.pill .emoji{font-size:13px}.pill.secondary-action{display:none}.status{left:12px;bottom:12px;max-width:260px;font-size:10px;padding:8px 10px}.result{right:12px;bottom:11px;width:calc(100vw - 24px);padding:17px 19px;box-shadow:4px 4px 0 var(--ink)}.result h2{font-size:34px}.result .distance{margin:12px 0}.result .joke{min-height:0}.result .fine{font-size:9px}.result.open~.status{display:none}.instruction{top:44%;font-size:11px;white-space:normal;text-align:center;max-width:80%}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important;animation:none!important}}
+  </style>
+</head>
+<body>
+  <div id="map" role="application" aria-label="Interactive map of the United States; click to locate a strange street name"></div>
+  <header class="topbar">
+    <div class="brand" id="brand" title="America's most regrettable naming decisions"><h1>what the <span>street?!</span></h1><p>The shortest distance between you and a terrible naming decision.</p></div>
+    <nav class="top-actions" aria-label="Map actions">
+      <button class="pill hot" id="random"><span class="emoji">🎲</span> Surprise me</button>
+      <button class="pill secondary-action" id="reset"><span class="emoji">🇺🇸</span> Whole country</button>
+      <button class="pill" id="about" aria-label="About this project"><span class="emoji">?</span> About</button>
+    </nav>
+  </header>
+  <div class="instruction" id="instruction">👇 Click anywhere. Find nearby nonsense.</div>
+  <aside class="result" id="result" aria-live="polite" aria-label="Closest ridiculous street result">
+    <div class="result-top"><span class="eyebrow">📍 Your nearest nonsense*</span><button class="close" id="close" aria-label="Close result">×</button></div>
+    <h2 id="street">The name goes here</h2><div class="location" id="locality"></div>
+    <div class="distance"><strong id="miles">—</strong><span>approx. miles from<br>your clicked location</span></div>
+    <p class="joke" id="joke"></p>
+    <div class="meter"><span>OFFICIAL NONSENSE LEVEL</span><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="result-buttons"><button class="action primary" id="another">🎲 Another one</button><button class="action" id="share">↗ Share this</button></div>
+    <p class="fine">*Closest among <span class="roadcount">the curated</span> named streets in this starter collection. Road coordinates are approximate locality anchors, not exact road positions. Distance is straight-line and approximate. <a href="https://www.smarty.com/blog/funny-weird-street-names-addresses" target="_blank" rel="noopener">Street-name sources</a>.</p>
+  </aside>
+  <div class="status" id="status"><span class="dot"></span><b id="count">—</b> questionable street names <small>· US starter collection</small></div>
+  <div class="overlay" id="aboutDialog" hidden><section class="modal" role="dialog" aria-modal="true" aria-labelledby="aboutTitle"><button class="close" data-dismiss aria-label="Close">×</button><h2 id="aboutTitle">A cartographic public service.</h2><p>Somebody named these roads. Somebody else approved them. We made a map about it.</p><p>Click anywhere to find the nearest entry in our <b>curated starter collection</b>. This is <b>not</b> an exhaustive survey of US roads, and the street locations are approximate until the underlying road geometries are validated. We're making no claims about actual travel distances.</p><p>Street names and localities are drawn from published collections including <a href="https://www.smarty.com/blog/funny-weird-street-names-addresses" target="_blank" rel="noopener">Smarty</a>, <a href="https://www.realtor.com/news/trends/weirdest-street-names-america/" target="_blank" rel="noopener">Realtor.com</a>, and <a href="https://995thefox.iheart.com/featured/k-c-wheeler/content/2025-03-12-funny-street-names/" target="_blank" rel="noopener">iHeart</a>. OpenStreetMap contributors provide map data via OpenFreeMap.</p><p class="mini">Made in the spirit of the early, delightful, profoundly unnecessary internet.</p></section></div>
+  <div class="overlay" id="eggDialog" hidden><section class="modal" role="dialog" aria-modal="true" aria-labelledby="eggTitle"><button class="close" data-dismiss aria-label="Close">×</button><h2 id="eggTitle">🥚 You found the Department of Street Nonsense.</h2><p>Congratulations. You are now the <b>Deputy Assistant Undersecretary of Inexplicable Road Naming</b>.</p><p class="secret">CERTIFICATE #HONK-HONK-001</p><p>Your first official duty: continue doing absolutely nothing useful.</p><button class="action primary" id="secretButton">Send me somewhere extremely silly →</button></section></div>
+  <script src="https://unpkg.com/maplibre-gl@5.9.0/dist/maplibre-gl.js"></script>
+  <script src="./roads.js"></script>
+  <script>
+  (()=>{'use strict';
+    const roads=window.WTS_ROADS||[];
+    const $=id=>document.getElementById(id);
+    const jokes=[
+      'This name survived a committee meeting. Think about that.',
+      'A real road name. An imaginary quality-control department.',
+      'Imagine saying this with a straight face to a delivery driver.',
+      'Somewhere, a street sign manufacturer had a very good day.',
+      'Tax dollars were involved in this decision. Probably.',
+      'This is why we cannot let roads name themselves.',
+      'It was this or "Main Street," and they chose chaos.',
+      'You have to wonder what the rejected names were.',
+      'Please spare a thought for the people filling out forms here.',
+      'GPS navigation has never sounded so undignified.'
+    ];
+    const haversine=(a,b)=>{const rad=Math.PI/180,dLat=(b.lat-a.lat)*rad,dLon=(b.lng-a.lng)*rad,k=Math.sin(dLat/2)**2+Math.cos(a.lat*rad)*Math.cos(b.lat*rad)*Math.sin(dLon/2)**2;return 3958.76*2*Math.atan2(Math.sqrt(k),Math.sqrt(1-k))};
+    const nearest=(point)=>roads.map(road=>({...road,dist:haversine(point,road)})).sort((a,b)=>a.dist-b.dist)[0];
+    const showDialog=id=>{$(id).hidden=false;$(id).querySelector('button').focus()};
+    const closeDialogs=()=>document.querySelectorAll('.overlay').forEach(el=>el.hidden=true);
+    let map,fromMarker,toMarker,lastPick=null,lastRoad=null,routeData=null,clickCount=0,brandCount=0;
+    const formatDist=n=>n<1?n.toFixed(1):Math.round(n).toLocaleString('en-US');
+    function updateRoute(a,b){
+      routeData={type:'Feature',properties:{},geometry:{type:'LineString',coordinates:[[a.lng,a.lat],[b.lng,b.lat]]}};
+      if(map.getSource('connection'))map.getSource('connection').setData(routeData);
+    }
+    function pointMarker(location,kind){const el=document.createElement('div');el.className=kind==='selected'?'pin':'found-pin';if(kind==='found'){const b=document.createElement('b');b.textContent='?!';el.append(b)}return new maplibregl.Marker({element:el,anchor:'bottom'}).setLngLat([location.lng,location.lat]).addTo(map)}
+    function display(point,road,{fly=true,updateUrl=true}={}){
+      lastPick=point;lastRoad=road;
+      if(fromMarker)fromMarker.remove();if(toMarker)toMarker.remove();
+      fromMarker=pointMarker(point,'selected');toMarker=pointMarker(road,'found');updateRoute(point,road);
+      $('street').textContent=road.name;
+      $('locality').textContent=`${road.city}, ${road.state} · Approximate locality`;
+      $('miles').textContent=formatDist(haversine(point,road));
+      $('joke').textContent=jokes[(road.id*7+Math.floor(road.name.length/3))%jokes.length];
+      document.querySelectorAll('.meter i').forEach((i,index)=>i.classList.toggle('filled',index<road.score));
+      $('result').classList.add('open');$('instruction').classList.add('gone');
+      if(fly){let bounds=new maplibregl.LngLatBounds([point.lng,point.lat],[point.lng,point.lat]);bounds.extend([road.lng,road.lat]);map.fitBounds(bounds,{padding:{top:165,bottom:190,left:80,right: Math.min(390,window.innerWidth*.28)},maxZoom:11,duration:850})}
+      if(updateUrl){const q=new URLSearchParams({lat:point.lat.toFixed(5),lng:point.lng.toFixed(5)});history.replaceState(null,'',`${location.pathname}?${q}`)}
+    }
+    function choose(point){const road=nearest(point);if(road)display(point,road)}
+    function randomRoad(){const road=roads[Math.floor(Math.random()*roads.length)];const origin={lat:road.lat+0.035,lng:road.lng+0.05};display(origin,road)}
+    async function share(){if(!lastRoad)return;const url=location.href;const body=`I found ${lastRoad.name} (${lastRoad.city}, ${lastRoad.state}) on What the Street?! ${url}`;if(navigator.share){try{await navigator.share({title:'What the Street?!',text:body,url});return}catch(e){if(e.name==='AbortError')return}}try{await navigator.clipboard.writeText(body);$('share').textContent='✓ Copied!';setTimeout(()=>$('share').textContent='↗ Share this',1800)}catch(e){prompt('Copy this link:',url)}}
+    $('count').textContent=roads.length;
+    document.querySelectorAll('.roadcount').forEach(x=>x.textContent=roads.length);
+    $('random').addEventListener('click',randomRoad);$('another').addEventListener('click',randomRoad);$('share').addEventListener('click',share);
+    $('reset').addEventListener('click',()=>map.flyTo({center:[-97.5,39],zoom:3.6,duration:1100}));
+    $('close').addEventListener('click',()=>{$('result').classList.remove('open');history.replaceState(null,'',location.pathname)});
+    $('about').addEventListener('click',()=>showDialog('aboutDialog'));
+    document.querySelectorAll('[data-dismiss]').forEach(b=>b.addEventListener('click',closeDialogs));
+    document.querySelectorAll('.overlay').forEach(el=>el.addEventListener('click',e=>{if(e.target===el)closeDialogs()}));
+    document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDialogs()});
+    // Easter egg: clicking logo five times reveals the very official government department.
+    $('brand').addEventListener('click',()=>{brandCount++;if(brandCount>=5){brandCount=0;showDialog('eggDialog')}});
+    $('secretButton').addEventListener('click',()=>{closeDialogs();const top=roads.filter(r=>r.score===5);const road=top[Math.floor(Math.random()*top.length)];display({lat:road.lat+0.02,lng:road.lng-0.02},road)});
+    if(!window.maplibregl){$('instruction').textContent='Map library unavailable. Check your internet connection.';return}
+    map=new maplibregl.Map({container:'map',style:'https://tiles.openfreemap.org/styles/liberty',center:[-97.5,39],zoom:3.6,minZoom:2,maxZoom:17,attributionControl:true});
+    map.addControl(new maplibregl.NavigationControl({showCompass:false}),'bottom-right');
+    map.on('load',()=>{
+      map.addSource('connection',{type:'geojson',data:{type:'FeatureCollection',features:[]}});
+      map.addLayer({id:'connection-shadow',type:'line',source:'connection',paint:{'line-color':'#fff','line-width':7,'line-opacity':.9}});
+      map.addLayer({id:'connection-dash',type:'line',source:'connection',paint:{'line-color':'#ff633e','line-width':3.5,'line-dasharray':[2,2]}});
+      const params=new URLSearchParams(location.search),lat=Number(params.get('lat')),lng=Number(params.get('lng'));
+      if(params.has('lat')&&params.has('lng')&&Number.isFinite(lat)&&Number.isFinite(lng)&&Math.abs(lat)<=90&&Math.abs(lng)<=180)choose({lat,lng});
+    });
+    map.on('click',event=>{clickCount++;choose({lat:event.lngLat.lat,lng:event.lngLat.lng})});
+    map.on('error',()=>{if(!$('result').classList.contains('open'))$('instruction').textContent='Map tiles couldn’t load. Check your connection.'});
+  })();
+  </script>
+</body>
+</html>
