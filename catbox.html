@@ -27,6 +27,7 @@
 .verdict,.result-panel{display:none;border-top:3px solid var(--ink);padding:18px 21px 21px;background:#fff0c9;text-align:center}.verdict.show,.result-panel.show{display:block;animation:panel-in .3s ease}.verdict h2,.result-panel h2{margin:0;font:800 clamp(24px,3.5vw,34px)/1.05 'Baloo 2',system-ui,sans-serif}.verdict p{font-size:14px;margin:5px 0 13px}.verdict-choices{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:13px}.verdict-choices button{font-size:clamp(12px,1.6vw,16px);font-weight:1000;line-height:1.2;border:2.5px solid var(--ink);border-radius:13px;padding:12px 8px;min-height:64px;background:#fffdf5;box-shadow:2px 4px 0 var(--ink)}.verdict-choices button:hover{background:#ffd3e7;transform:translateY(-2px)}.result-panel{background:#e3f9ef}.result-panel.ouch{background:#fce2ec}.result-panel.love{background:#ffe4ef}.result-panel p{font-size:16px;font-weight:800;max-width:700px;margin:9px auto 6px}.result-panel .grudge{font-size:13px;color:#bc4477;margin:0 auto 14px;min-height:4px}.small-action{border:3px solid var(--ink);border-radius:13px;padding:11px 25px;box-shadow:2px 4px 0 var(--ink);background:#fff3a1;font:800 20px/1 'Baloo 2',system-ui,sans-serif}.small-action:hover{filter:brightness(1.05);transform:translateY(-2px)}.small-action:active{box-shadow:none;transform:translateY(3px)}
 .below{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 5px 0;flex-wrap:wrap;font-size:13px}.score{display:flex;gap:9px;flex-wrap:wrap}.score>span{border:2.5px solid var(--ink);border-radius:50px;padding:7px 12px;background:#fff9ed;box-shadow:2px 3px 0 #694b74}.score .rank{background:#f5dbff}.footnote{font-size:12px;margin:17px auto 0;text-align:center;max-width:650px;opacity:.68}.footnote a{font-weight:1000}.fineprint{list-style:none;padding:0;margin:8px auto 0;max-width:620px;text-align:center;font-size:10px;opacity:.55;font-weight:700;line-height:1.5}.fineprint li:last-child{animation:panel-in .5s ease}.confetti-layer{position:fixed;inset:0;pointer-events:none;z-index:30;overflow:hidden}.confetti{position:absolute;top:-25px;left:var(--x);height:var(--size);width:calc(var(--size) * .57);background:var(--color);animation:confetti 1.9s ease-in forwards;animation-delay:var(--delay)}
 .dialog{border:4px solid var(--ink);border-radius:23px;padding:0;max-width:min(95vw,760px);max-height:88dvh;box-shadow:0 14px 0 var(--ink),0 30px 80px #271f4f75;color:var(--ink);background:#fff9ee}.dialog::backdrop{background:#392145b8;backdrop-filter:blur(5px)}.dialog-head{background:#f8c9ed;display:flex;align-items:center;justify-content:space-between;padding:14px 21px;border-bottom:3px solid var(--ink)}.dialog-head h2{font:800 30px 'Baloo 2',system-ui,sans-serif;margin:0}.close{background:#fff9ee;border:2.5px solid var(--ink);border-radius:100px;width:42px;height:42px;font-size:22px;box-shadow:2px 3px 0 var(--ink)}.dialog-body{padding:18px 20px 22px;overflow-y:auto;max-height:calc(88dvh - 78px)}.dialog-copy{font-size:14px;margin:0 0 12px}.roster{display:grid;grid-template-columns:repeat(auto-fill,minmax(125px,1fr));gap:10px}.roster-card{min-height:153px;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;background:#fff2ca;border:2.5px solid var(--ink);border-radius:15px;padding:9px 6px;box-shadow:2px 3px 0 var(--ink);overflow:hidden;text-align:center}.roster-card svg{width:83px;height:92px;flex:none}.roster-card strong{font-size:12px;line-height:1.15}.roster-card small{font-size:10px;opacity:.7;font-weight:900;line-height:1.2;margin-top:2px}.roster-card.locked{background:#ede6f3}.roster-card.locked .shadow-cat{height:88px;display:grid;place-items:center;color:#a795b4;font-size:48px;filter:grayscale(1)}.roster-card.legend{background:linear-gradient(160deg,#ffe7a0,#e6c1ff)}.roster-card .tag{position:absolute;left:5px;top:5px;font-size:9px;padding:2px 6px;border-radius:30px;border:2px solid var(--ink);background:#ffe483}.collection-link{display:inline-block;margin-top:18px;padding:11px 16px;border:3px solid var(--ink);background:#ffc0d7;border-radius:14px;box-shadow:2px 4px 0 var(--ink);font-size:14px;text-decoration:none}
+.arena.ready .speech{visibility:hidden}.casecard{max-width:560px;margin:0 auto 14px;text-align:left}.suing{margin:0;font:800 clamp(19px,2.6vw,24px)/1.2 'Baloo 2',system-ui,sans-serif}.suing b{color:#bc4477}.facts{margin:8px 0 0;font-size:15px;line-height:1.4;font-weight:700}.power{margin:8px 0 0;font-size:13px;color:#8251a1}.power:empty{display:none}.action-zone.playing .casecard{display:none}.action-zone.done{display:none}.item{font-size:24px;padding:6px}.scoreline{margin:0;font-size:13px}.action-zone{border-top:3px solid var(--ink)}
 @keyframes cat-breathe{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-5px) rotate(1deg)}}@keyframes angry-breathe{0%,100%{transform:translateX(-2px) rotate(-3deg)}50%{transform:translateX(2px) rotate(3deg)}}@keyframes windup{0%,100%{transform:scale(1.06,.93) rotate(-3deg)}50%{transform:scale(.97,1.05) rotate(3deg)}}@keyframes tell-bounce{0%,100%{translate:0 0}50%{translate:0 -8px}}@keyframes paw-wiggle{0%,75%,100%{transform:rotate(0)}85%{transform:rotate(-7deg)}}@keyframes swat{0%,100%{transform:rotate(2deg)}50%{transform:rotate(-26deg)}}@keyframes recoil{0%{transform:translateX(0) scale(1)}40%{transform:translateY(-28px) scale(.94) rotate(-8deg)}100%{transform:translate(0) scale(1)}}@keyframes lunge{0%{transform:translate(0)}45%{transform:translateY(-25px) rotate(7deg) scale(1.1)}100%{transform:translate(0)}}@keyframes wiggle{0%,100%{transform:rotate(-10deg)}50%{transform:rotate(14deg)}}@keyframes speech-pop{0%{scale:.8}65%{scale:1.09}100%{scale:1}}@keyframes shout{0%{opacity:0;transform:translate(-50%,-50%) scale(.4) rotate(-13deg)}23%{opacity:1;transform:translate(-50%,-50%) scale(1.4) rotate(7deg)}75%{opacity:1}100%{opacity:0;transform:translate(-50%,-100%) scale(1.2)}}@keyframes particle{0%{opacity:1;transform:translate(0,0) rotate(0) scale(.6)}100%{opacity:0;transform:translate(var(--dx),var(--dy)) rotate(var(--rot)) scale(1.35)}}@keyframes float-up{0%{opacity:0;translate:0 15px;scale:.7}25%{opacity:1;scale:1.15}100%{opacity:0;translate:0 -60px;scale:1}}@keyframes result-enter{0%{transform:scale(.2) rotate(-22deg);opacity:0}75%{transform:scale(1.2) rotate(8deg)}100%{transform:scale(1) rotate(0);opacity:1}}@keyframes result-spin{from{transform:rotate(-85deg) scale(.2)}to{transform:rotate(720deg) scale(1)}}@keyframes panel-in{from{transform:translateY(-10px);opacity:0}to{transform:translateY(0);opacity:1}}@keyframes confetti{0%{transform:translate3d(0,0,0) rotate(0);opacity:1}100%{transform:translate3d(var(--drift),110vh,0) rotate(750deg);opacity:0}}@keyframes shake{0%,100%{translate:0}20%{translate:-8px 3px}40%{translate:7px -4px}60%{translate:-5px 2px}80%{translate:4px 0}}@keyframes laser{0%{left:12%;top:72%}22%{left:82%;top:55%}45%{left:28%;top:42%}70%{left:72%;top:78%}100%{left:50%;top:62%;opacity:0}}@keyframes type-in{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
 @media(max-width:620px){.floor:after{font-size:26px;right:14px;top:-24px}.arena-stamp{font-size:8px;bottom:3px;padding:3px 8px}.claim{font-size:10px}.wrap{padding:9px 8px 33px}.nav{padding:0 4px;margin-bottom:11px}.brand{font-size:12px}.brand-star{height:28px;width:28px}.mini-btn{font-size:11px;padding:8px 10px}.head h1{font-size:65px}.head .tiny-sticker{font-size:25px}.tiny-sticker.a{left:8%}.tiny-sticker.b{right:8%}.byline{margin-top:9px;font-size:10px}.game{border-radius:22px;border-width:3px;box-shadow:0 7px 0 var(--ink),0 10px 20px #58315d32}.case-row{padding:11px 13px;gap:8px}.case-title{font-size:18px}.case-label{font-size:9px}.round-pill{padding:7px 8px;font-size:10px}.hud{grid-template-columns:74px 1fr;gap:10px;padding:9px 9px 7px}.time{padding:6px 0;border-width:2px}.time strong{font-size:23px}.meter-top{font-size:9px}.meter-track{height:21px}.danger-text{font-size:10px}.arena{height:345px}.speech{top:10px;min-height:50px;max-width:45%;font-size:13px;padding:8px 6px;border-width:2.5px}.speech.left{left:2%}.speech.right{right:2%}.fighter{width:44%;bottom:38px}.fighter.left{left:24%}.fighter.right{left:76%}.fighter .nametag{font-size:11px;padding:3px 9px;margin-top:-7px}.scene-sun{width:85px;height:85px;top:42%}.sun-face{font-size:27px}.floor{height:108px;bottom:-29px}.cloud{transform:scale(.65);top:72px;left:4%}.cloud.two{top:117px;right:-20px;transform:scale(.46)}.steno{padding:8px 10px}.steno span{font-size:12px}.action-zone{padding:12px 10px 14px}.action-hint{font-size:14px}.primary{min-height:61px;font-size:22px}.boop{min-height:64px}.verdict,.result-panel{padding:15px 12px 20px}.verdict-choices{grid-template-columns:1fr;gap:8px}.verdict-choices button{min-height:52px;font-size:15px}.below{padding-top:12px;gap:11px}.score>span{font-size:11px;padding:6px 8px}.dialog-body{padding:13px}.dialog-head h2{font-size:23px}.roster{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.roster-card{min-height:133px}.roster-card svg{width:68px;height:78px}.roster-card strong{font-size:10px}}
 @media(max-width:380px){.arena{height:325px}.head h1{font-size:59px}.fighter{width:47%}.speech{font-size:12px}.round-pill{font-size:9px}.meter-top{letter-spacing:0}.mini-btn{font-size:10px}.item{font-size:12px}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.001ms!important;transition-duration:.001ms!important;scroll-behavior:auto!important}.fighter.windup .tell{transform:translateX(-50%) scale(1)}}
@@ -45,43 +46,38 @@
   <main>
     <section class="game" id="game" aria-label="Cat Box arcade game">
       <div class="case-row">
-        <div><span class="case-label" id="caseLabel">⚖️ CASE NO. <span id="roundNum">001</span></span><h2 class="case-title" id="caseTitle">THE CONCERT TICKET</h2><p class="claim" id="caseClaim">💰 CLAIM: $185 for a seat that stayed empty</p></div>
-        <span class="round-pill" id="pill">🥊 VS 🥊</span>
+        <div><span class="case-label" id="caseLabel">⚖️ CASE NO. <span id="roundNum">001</span></span><h2 class="case-title" id="caseTitle">Pickles v. Waffles</h2></div>
       </div>
       <div class="hud" aria-live="off">
         <div class="time"><small>🔔 ROUND</small><strong><span id="timer">15</span>s</strong></div>
         <div class="meter">
           <div class="meter-top"><span>💚 ORDER</span><span>💥 CAT-ASTROPHE</span></div>
           <div class="meter-track" role="progressbar" aria-label="How close the cats are to fighting" aria-valuemin="0" aria-valuemax="100" aria-valuenow="30" id="meterTrack"><div class="meter-fill" id="meterFill"></div></div>
-          <div class="danger-text" id="dangerText" aria-live="polite">Court is not yet in session.</div>
+          <div class="danger-text" id="dangerText" aria-live="polite"></div>
         </div>
       </div>
       <div class="arena" id="arena" aria-label="Courtroom. While playing, tap the left or right half to boop that cat.">
-        <div class="scene-sun"><span class="sun-face" id="sunFace">☀️</span></div>
-        <div class="cloud"></div><div class="cloud two"></div>
-        <span class="doodle d1">✦</span><span class="doodle d2">✳</span><span class="doodle d3">✧</span><span class="doodle d4">✦</span>
         <div class="half-hint" id="halfL"></div><div class="half-hint r" id="halfR"></div>
         <div class="speech left" id="speechLeft">…</div>
         <div class="speech right" id="speechRight">…</div>
-        <div class="floor"></div><span class="arena-stamp" id="stamp">✦ SMALL CLAIMS COURT · NOW IN A LITTER BOX ✦</span>
+        <div class="floor"></div>
         <div class="fighter left" id="fighterLeft"><span class="tell" id="tellLeft">❗</span><div id="artLeft"></div><div class="nametag" id="nameLeft">Pickles</div></div>
         <div class="fighter right" id="fighterRight"><span class="tell" id="tellRight">❗</span><div id="artRight"></div><div class="nametag" id="nameRight">Waffles</div></div>
-        <div class="box-overlay" aria-hidden="true">📦<small>both in the box</small></div>
+        <div class="box-overlay" aria-hidden="true">📦</div>
         <span class="shout" id="shout">HEY!</span>
         <div class="arena-result" id="arenaResult"><span class="result-emblem" id="resultEmblem" aria-hidden="true">🎉</span></div>
       </div>
-      <div class="steno" aria-live="polite"><b>📜 THE RECORD</b><span id="steno">Court is in session. Nobody is wearing pants.</span></div>
       <div class="action-zone" id="actionZone">
-        <p class="action-hint" id="actionHint">When a cat winds up a punch (❗), boop it to block. Booping a calm cat is rude.</p>
-        <button class="primary" type="button" id="mainButton">🔔 DING DING! COURT IS IN SESSION</button>
+        <div class="casecard"><p class="suing" id="suing"></p><p class="facts" id="facts"></p><p class="power" id="power"></p></div>
+        <button class="primary" type="button" id="mainButton">🔔 DING DING</button>
         <div class="controls"><button class="boop" type="button" id="boopL">👈 BOOP<small id="boopLName">Pickles</small></button><button class="boop" type="button" id="boopR">BOOP 👉<small id="boopRName">Waffles</small></button></div>
-        <div class="items"><button class="item" type="button" id="itemLaser">🔴 Laser<small>calms most cats</small></button><button class="item" type="button" id="itemCuc">🥒 Cucumber<small>risky. very risky.</small></button><button class="item" type="button" id="itemBox">📦 Box<small>buys a moment</small></button></div>
-        <p class="subline" id="helper">Tap the left or right side of the courtroom. Keyboard: ← → to boop, 1 2 3 for items.</p>
+        <div class="items"><button class="item" type="button" id="itemLaser" aria-label="Laser pointer" title="Laser pointer">🔴</button><button class="item" type="button" id="itemCuc" aria-label="Cucumber" title="Cucumber (risky)">🥒</button><button class="item" type="button" id="itemBox" aria-label="Cardboard box" title="Cardboard box">📦</button></div>
+        <p hidden id="actionHint"></p><p hidden id="helper"></p><span hidden id="steno"></span>
       </div>
-      <section class="verdict" id="verdict" aria-live="polite"><h2>⚖️ ORDER RESTORED (BARELY)</h2><p>Now rule on the claim, Your Floofness. Choose carefully. Or don't.</p><div class="verdict-choices" id="verdictChoices"></div></section>
+      <section class="verdict" id="verdict" aria-live="polite"><h2>⚖️ How do you rule?</h2><div class="verdict-choices" id="verdictChoices"></div></section>
       <section class="result-panel" id="resultPanel" aria-live="polite"><h2 id="resultTitle">CASE CLOSED!</h2><p id="resultText"></p><p class="grudge" id="grudgeText"></p><button type="button" class="small-action" id="nextButton">NEXT CASE →</button></section>
     </section>
-    <div class="below"><div class="score"><span class="rank">🎓 <b id="rank">Unpaid Intern Judge</b></span><span>⚖️ Rulings <b id="savedCount">0</b></span><span>💥 Catastrophes <b id="doomCount">0</b></span><span>💍 Accidental weddings <b id="loveCount">0</b></span></div><a href="pizzapizzacat.html" class="mini-btn">🍕 Discover more cats</a></div>
+    <div class="below"><p class="scoreline">🎓 <b id="rank">Unpaid Intern Judge</b> · <span id="savedCount">0 rulings</span> · <span id="doomCount">0 catastrophes</span> · <span id="loveCount">0 weddings</span></p><a href="pizzapizzacat.html" class="mini-btn">🍕 Discover more cats</a></div>
     <p class="footnote">A ridiculous part of <a href="index.html">Comical Floof</a>. Featuring characters from <a href="pizzapizzacat.html">Pizza Pizza Cat</a> by <strong>LinaBubble</strong>.</p>
     <ul class="fineprint" id="fineprint"></ul>
   </main>
@@ -141,7 +137,7 @@ const CASES=[
  {title:'THE CONCERT TICKET',claim:'$185 for a seat that stayed empty',emoji:'🎟️',lines:[['YOU SAID YOU WERE IN!','I SAID “MAYBE”!'],['MAYBE MEANS YES!','MAYBE MEANS MAYBE!'],['I HELD YOUR JACKET ALL NIGHT!','NOBODY ASKED YOU TO!']],choices:[['💵 Pay the $185','JUDGMENT FOR PLAINTIFF','Defendant shall pay $185, in concert tickets the defendant also won’t use.','🎟️🎟️',true],['🤷 “Maybe” is binding','LANDMARK RULING','The court finds that “maybe” is a legally binding yes. Every group chat in America is now in breach.','📜😱',false],['🎤 Sing the setlist','RESTITUTION','Defendant shall perform the entire concert from memory. It is three hours long. Nobody enjoys it.','🎤😐',true]]},
  {title:'THE NAME MISSING FROM THE WEDDING CARD',claim:'$175 toward one-third of a stand mixer',emoji:'💌',lines:[['I PAID FOR A THIRD OF A MIXER!','YOU’RE ON THE BACK OF THE CARD!'],['IN PENCIL!','PENCIL IS STILL WRITING!'],['THEY THANKED YOU AND “GUEST”!','THAT’S A VERY NICE NAME!']],choices:[['✍️ Add the name in pen','CORRECTION ORDERED','Plaintiff’s name is added to the card in permanent ink. The card was already thrown away.','✍️🗑️',true],['🥣 Split custody of the mixer','JOINT CUSTODY','The plaintiff gets the mixer every other weekend. The couple is confused and a little scared.','🥣📅',false],['💌 Send a second card','DUPLICATE FILING','A second card is sent from the plaintiff alone. It also says “and Guest.”','💌💌',true]]},
  {title:'THE DOG-SITTING INVOICE',claim:'$260 for a dog who was “no trouble”',emoji:'🐕',lines:[['YOU SAID HE WAS NO TROUBLE!','HE IS NO TROUBLE!'],['HE ATE A REMOTE!','WHICH REMOTE?'],['THE TV REMOTE!','THAT’S HIS FAVORITE!']],choices:[['📺 Replace the remote','REMOTE RESTORED','Defendant shall buy a new remote. The dog has already been told where it is.','📺🐕',false],['🧾 Pay the full invoice','JUDGMENT FOR PLAINTIFF','Defendant shall pay $260. The dog is ordered to write an apology. The dog eats the apology.','🧾🐕',true],['🐕 Dog takes the stand','THE WITNESS IS A DOG','The dog is called as a witness. It wags. Case dismissed for being too cute to continue.','🐕⚖️',false]]},
- {title:'THE BIRTHDAY BRUNCH LOBSTER',claim:'$214, one share of a split brunch bill',emoji:'🦞',lines:[['WE SAID SPLIT IT EVENLY!','THAT WAS BEFORE THE LOBSTER!'],['YOU HAD A SIDE SALAD!','AND FOUR MIMOSAS!'],['IT WAS MY BIRTHDAY!','IT WAS YOUR BIRTHDAY LAST YEAR TOO!']],choices:[['🧮 Itemize the receipt','FORENSIC ACCOUNTING','The receipt is itemized down to the lemon wedge. The total owed is $214.06. Nobody has six cents.','🧾🔍',true],['🦞 Lobster pays','THE LOBSTER IS LIABLE','The court holds the lobster responsible. The lobster has already been eaten. The case is closed and buttery.','🦞⚖️',false],['🎂 No more birthdays','BIRTHDAYS SUSPENDED','Birthdays are suspended until further notice. Everyone is now the same age forever.','🎂🚫',true]]},
+ {title:'THE BIRTHDAY BRUNCH LOBSTER',claim:'$214, one share of a split brunch bill',emoji:'🦞',lines:[['WE SAID SPLIT IT EVENLY!','THAT WAS BEFORE THE LOBSTER!'],['YOU HAD FOUR MIMOSAS!','AND YOU HAD A LOBSTER!'],['IT WAS MY BIRTHDAY!','IT WAS YOUR BIRTHDAY LAST YEAR TOO!']],choices:[['🧮 Itemize the receipt','FORENSIC ACCOUNTING','The receipt is itemized down to the lemon wedge. The total owed is $214.06. Nobody has six cents.','🧾🔍',true],['🦞 Lobster pays','THE LOBSTER IS LIABLE','The court holds the lobster responsible. The lobster has already been eaten. The case is closed and buttery.','🦞⚖️',false],['🎂 No more birthdays','BIRTHDAYS SUSPENDED','Birthdays are suspended until further notice. Everyone is now the same age forever.','🎂🚫',true]]},
  {title:'THE HEDGE TRIM NOBODY ASKED FOR',claim:'$420 to replace one hedge',emoji:'🦆',lines:[['YOU TRIMMED MY HEDGE!','I WAS BEING NEIGHBORLY!'],['IT’S SHAPED LIKE A DUCK NOW!','A VERY GOOD DUCK!'],['I DIDN’T WANT A DUCK!','NOBODY KNOWS THEY WANT A DUCK!']],choices:[['🌳 Replace the hedge','HEDGE RESTORED','A new hedge is planted. By morning, it is also shaped like a duck.','🌳🦆',true],['🦆 The duck stays','DUCK UPHELD','The duck is designated a local landmark. Tour buses begin arriving on Thursdays.','🦆🚌',false],['📏 Hedge height ordinance','NEW ORDINANCE','All hedges must now be shaped like “a reasonable rectangle.” The duck is grandfathered in.','📏🦆',true]]},
  {title:'THE SHRUNKEN SWEATER',claim:'$160 for one cashmere sweater',emoji:'🧶',lines:[['YOU WASHED IT ON HOT!','IT LOOKED DIRTY!'],['IT SAID DRY CLEAN ONLY!','IT SAID IT QUIETLY!'],['IT FITS A HAMSTER NOW!','A VERY STYLISH HAMSTER!']],choices:[['💵 Pay for the sweater','JUDGMENT FOR PLAINTIFF','Defendant shall pay $160 and attend a laundry symbols class. The class is also on hot.','🧺📚',true],['🐹 Give it to a hamster','RESTITUTION IN KIND','The sweater is awarded to a local hamster. It looks incredible.','🐹🧶',false],['🧼 Ban all laundry','LAUNDRY MORATORIUM','No one may do laundry until this is resolved. It is never resolved.','🧼🚫',true]]},
  {title:'THE SNOWBLOWER SPLIT',claim:'$450, half of one snowblower',emoji:'❄️',lines:[['WE SPLIT THE SNOWBLOWER!','AND I USE IT!'],['YOU DID THE WHOLE STREET!','I WAS BEING NEIGHBORLY!'],['THE WHOLE STREET, KEVIN!','MY NAME IS NOT KEVIN!']],choices:[['📅 Snowblower schedule','SHARED CUSTODY','A snowblower schedule is issued. It only snows on the defendant’s days.','📅❄️',true],['🏘️ Bill the whole street','CLASS ACTION','The neighbors are billed $11 each. Nobody pays. Everybody waves less.','🏘️🧾',false],['🥄 Shovels only','RETURN TO TRADITION','The snowblower is confiscated. Everyone gets a shovel and a back injury.','🥄😩',true]]},
@@ -151,6 +147,21 @@ const CASES=[
  {title:'THE BOUNCE HOUSE DEPOSIT',claim:'$350 lost at a kid’s birthday party',emoji:'🎈',lines:[['YOUR KID POPPED IT!','IT WAS A WEAK BOUNCE HOUSE!'],['HE WAS WEARING CLEATS!','THEY WERE INDOOR CLEATS!'],['THERE IS NO SUCH THING!','THERE IS NOW!']],choices:[['🎈 Pay the deposit','JUDGMENT FOR PLAINTIFF','Defendant shall pay $350. The child is ordered to bounce gently from now on.','🎈💵',true],['👟 Ban cleats','FOOTWEAR ORDINANCE','Cleats are banned from all inflatables. The child appeals. The child loses.','👟🚫',false],['🏰 Inflate the courtroom','RE-ENACTMENT','The court orders a re-enactment in a new bounce house. It pops. Everyone is billed.','🏰💥',true]]},
  {title:'THE BORROWED CROCKPOT',claim:'$129 for one crockpot, returned crusty',emoji:'🍲',lines:[['IT WAS CLEAN WHEN I LENT IT!','THE CHILI IS A GIFT!'],['IT’S BEEN SOAKING FOR A WEEK!','THAT’S HOW YOU SEASON IT!'],['YOU DON’T SEASON A CROCKPOT!','NOT WITH THAT ATTITUDE!']],choices:[['🧽 Scrub it clean','COMMUNITY SERVICE','Defendant is sentenced to scrub the crockpot. Three weeks later, the defendant is still scrubbing.','🧽⏳',true],['🍲 Keep the chili','RESTITUTION IN CHILI','The court rules the chili was a gift. Plaintiff must return the crockpot with chili in it.','🍲🔁',true],['🔥 Buy a new one','JUDGMENT FOR PLAINTIFF','Defendant shall pay $129. The new crockpot is immediately borrowed by a third cat.','🔥🐈',false]]}
 ];
+const EXTRA=[
+ ['$185','a concert ticket','🎟️','{p} bought two tickets after {d} said “maybe.” {d} never showed. {p} saved the seat with a jacket all night.'],
+ ['$175','a wedding card','💌','{p} chipped in $175 for a wedding gift. {d} signed the card, then added {p}’s name on the back. In pencil.'],
+ ['$260','a dog-sitting bill','🐕','{p} watched {d}’s dog for the weekend. {d} said he was “no trouble.” The dog ate a remote.'],
+ ['$214','a brunch bill','🦞','{p} paid for the birthday brunch and asked everyone to split it evenly. {d} refuses, because {p} ordered the lobster.'],
+ ['$420','a hedge','🦆','{d} trimmed {p}’s hedge without asking. It is now shaped like a duck. {p} did not want a duck.'],
+ ['$160','a shrunken sweater','🧶','{d} borrowed {p}’s cashmere sweater and washed it on hot. The tag said dry clean only. It now fits a hamster.'],
+ ['$450','a snowblower','❄️','{p} and {d} split the cost of a snowblower. {d} used it to clear the entire street. {p} never got a turn.'],
+ ['$600','a $5 lamp','💡','{d} held a garage sale. {p}’s lamp was in it, with a $5 sticker. It sold in four minutes.'],
+ ['$118','an airport pickup','✈️','{d} promised to pick {p} up from the airport at 5 a.m. {d} did not. {p} took an Uber.'],
+ ['$300','a fantasy football pot','🏈','{d} runs the fantasy football league. {p} won it. {d} kept the $300 pot for “administrative expenses.”'],
+ ['$350','a bounce house','🎈','{p} rented a bounce house for a birthday party. {d}’s kid jumped in wearing cleats. The deposit is gone.'],
+ ['$129','a crockpot','🍲','{p} lent {d} a crockpot. It came back a week later with chili crust. {d} says the chili is a gift.']
+];
+CASES.forEach((c,i)=>{const [amount,over,emoji,facts]=EXTRA[i];Object.assign(c,{amount,over,emoji,facts})});
 const CATCH=['IT’S NOT ABOUT THE MONEY!','IT’S THE PRINCIPLE!','PER MY LAST TEXT!','I HAVE SCREENSHOTS!','I HAVE IT IN WRITING!','I HAVE THE RECEIPT IN MY CAR!','YOUR HONOR, I’D LIKE TO READ A TEXT!','I’M NOT SAYING IT WAS THEM, BUT IT WAS THEM!','I WANT TO SPEAK TO A SUPERVISOR!','I’VE BEEN VERY PATIENT!','I WAS BEING NEIGHBORLY!','THIS IS SO TYPICAL!'];
 const RUDE=['EXCUSE ME?!','I DID NOTHING!','I’M TELLING MOM!','RUDE!!','THAT WAS ASSAULT BY BOOP!','I’M A VICTIM HERE!'];
 const SHOUTS=['POW!','BAM!','JAB!','BONK!','HOOK!','PAY UP!'];
@@ -261,11 +272,11 @@ try{grudges=JSON.parse(localStorage.getItem(GRUDGE_KEY)||'{}')||{}}catch(e){grud
 try{roundsPlayed=Math.max(0,Number(localStorage.getItem(ROUNDS_KEY))||0)}catch(e){}
 try{soundOn=localStorage.getItem('catBoxSound-v1')!=='off'}catch(e){}
 const save=(k,v)=>{try{localStorage.setItem(k,typeof v==='string'?v:JSON.stringify(v))}catch(e){}};
-function readUnlocked(){let data={};try{data=JSON.parse(localStorage.getItem(ORIGINAL_KEY)||'{}')||{}}catch(e){}const found=OTHER.filter(c=>Number(data.counts?.[c.id])>0);if(Number(data.counts?.[LEGEND.id])>0||Number(data.legendCount)>0)found.push(LEGEND);return [...STARTERS,...found]}
+function readUnlocked(){let data={};try{data=JSON.parse(localStorage.getItem(ORIGINAL_KEY)||'{}')||{}}catch(e){}const found=OTHER.filter(c=>Number((data.counts||{})[c.id])>0);if(Number((data.counts||{})[LEGEND.id])>0||Number(data.legendCount)>0)found.push(LEGEND);return [...STARTERS,...found]}
 function esc(s){return String(s).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]))}
 const has=acc=>cats.some(c=>c.data.accessory===acc);
 const nm=i=>cats[i].data.name.replace('LEGENDARY ','');
-const fill=(t,i)=>t.replaceAll('{n}',nm(i));
+const fill=(t,i)=>t.split('{n}').join(nm(i));
 
 /* ---------- SOUND ---------- */
 function ac(){if(!soundOn)return null;try{ctx=ctx||new(window.AudioContext||window.webkitAudioContext)();if(ctx.state==='suspended')ctx.resume();return ctx}catch(e){return null}}
@@ -301,8 +312,8 @@ function stageLines(){return appeal&&stage===0?['WE MEET AGAIN.','I NEVER LEFT.'
 
 /* ---------- RECORDS ---------- */
 function rank(){const r=scores.saved,d=scores.doom;if(r+d===0)return 'Unpaid Intern Judge';if(d>r+2)return 'Disgraced Magistrate';if(r>=25)return 'Supreme Lap Authority';if(r>=12)return 'Chief Justice of Naps';if(r>=6)return 'The Honorable Floofness';if(r>=2)return 'Night Court Substitute';return 'Unpaid Intern Judge'}
-function scoreUI(){$('savedCount').textContent=scores.saved;$('doomCount').textContent=scores.doom;$('loveCount').textContent=scores.love;$('rank').textContent=rank()}
-function fineUI(){$('fineprint').innerHTML=FINE.slice(0,Math.min(FINE.length,1+roundsPlayed)).map(t=>`<li>${esc(t)}</li>`).join('')}
+function scoreUI(){const pl=(n,w)=>n+' '+w+(n===1?'':'s');$('savedCount').textContent=pl(scores.saved,'ruling');$('doomCount').textContent=pl(scores.doom,'catastrophe');$('loveCount').textContent=pl(scores.love,'wedding');$('rank').textContent=rank()}
+function fineUI(){$('fineprint').innerHTML=FINE.slice(0,Math.max(0,Math.min(FINE.length,roundsPlayed-2))).map(t=>`<li>${esc(t)}</li>`).join('')}
 const pairKey=(x,y)=>[x.id,y.id].sort().join('|');
 
 /* ---------- ROSTER ---------- */
@@ -311,7 +322,7 @@ function renderRoster(){const ids=new Set(unlocked.map(c=>c.id));$('roster').inn
 
 /* ---------- ROUND SETUP ---------- */
 function drawCase(){if(!deck.length){deck=CASES.map((_,i)=>i);for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]]}}return CASES[deck.pop()]}
-function renderFighters(){$('artLeft').innerHTML=makeCat(cats[0].data);$('artRight').innerHTML=makeCat(cats[1].data);$('nameLeft').innerHTML=`${esc(cats[0].data.name)}<small>🥊 PLAINTIFF</small>`;$('nameRight').innerHTML=`${esc(cats[1].data.name)}<small>DEFENDANT 🥊</small>`;$('boopLName').textContent=nm(0);$('boopRName').textContent=nm(1)}
+function renderFighters(){$('artLeft').innerHTML=makeCat(cats[0].data);$('artRight').innerHTML=makeCat(cats[1].data);$('nameLeft').textContent=cats[0].data.name;$('nameRight').textContent=cats[1].data.name;$('boopLName').textContent=nm(0);$('boopRName').textContent=nm(1)}
 function prepare(){
  cancelAnimationFrame(raf);syncCats();roundNo++;appeal=false;
  let A,B;
@@ -325,22 +336,22 @@ function prepare(){
  $('actionZone').className='action-zone';
  $('caseLabel').className='case-label'+(appeal?' appeal':'');
  $('caseLabel').innerHTML=(appeal?'🔁 ON APPEAL · CASE NO. ':'⚖️ CASE NO. ')+`<span id="roundNum">${String(roundNo).padStart(3,'0')}</span>`;
- $('caseTitle').textContent=activeCase.title;$('caseClaim').textContent=`💰 CLAIM: ${activeCase.claim}`;$('sunFace').textContent=activeCase.emoji;$('pill').textContent=appeal?'🥊 REMATCH 🥊':'🥊 VS 🥊';
+ 
  renderFighters();
  $('speechLeft').textContent=appeal?'YOU AGAIN.':activeCase.lines[0][0];$('speechRight').textContent=appeal?'UNFORTUNATELY.':activeCase.lines[0][1];$('speechLeft').classList.remove('mad');$('speechRight').classList.remove('mad');
- const powers=[...new Set(cats.map(c=>c.data.accessory))].map(a=>POWERS[a]?.hint).filter(Boolean);
+ const powers=[...new Set(cats.map(c=>c.data.accessory))].map(a=>(POWERS[a]||{}).hint).filter(Boolean);
  $('actionHint').textContent=powers.length?powers.join(' '):'When a cat winds up a punch (❗), boop it to block. Booping a calm cat is rude.';
  $('helper').textContent=powers.length?'Boop a cat when it shows ❗ to block the punch. Booping a calm cat is rude.':'Tap the left or right side of the courtroom. Keyboard: ← → to boop, 1 2 3 for items.';
- $('mainButton').textContent='🔔 DING DING! COURT IS IN SESSION';$('mainButton').disabled=false;
+ {const P=nm(0),D=nm(1),fx=t=>t.split('{p}').join(P).split('{d}').join(D);$('caseTitle').textContent=`${P} v. ${D}`;$('suing').innerHTML=`<b>${esc(P)}</b> is suing <b>${esc(D)}</b> for <b>${esc(activeCase.amount)}</b> over ${esc(activeCase.over)}.`;$('facts').textContent=(appeal?'Back on appeal. ':'')+fx(activeCase.facts);$('power').textContent=powers.join(' ')}$('mainButton').textContent='🔔 DING DING';$('arena').classList.add('ready');$('mainButton').disabled=false;
  for(const [k,id] of [['laser','itemLaser'],['cuc','itemCuc'],['box','itemBox']])$(id).disabled=false;
  $('verdict').classList.remove('show');$('resultPanel').className='result-panel';$('arenaResult').classList.remove('show');$('arena').classList.remove('is-danger','is-warm','boxed','frozen');
- $('dangerText').textContent=appeal?'These two have history.':'Court is not yet in session.';$('dangerText').className='danger-text';
+ $('dangerText').textContent='';$('dangerText').className='danger-text';
  $('steno').textContent=appeal?`${nm(0)} and ${nm(1)} have returned. Nobody is surprised.`:'The parties have entered the litter box. One is licking its glove.';
  updateVisual();
 }
 
 /* ---------- PLAY ---------- */
-function start(){if(mode!=='ready')return;mode='playing';$('actionZone').className='action-zone playing';sfx.bell();rec(pick(STENO.start));lastTick=performance.now();stage=-1;raf=requestAnimationFrame(loop);updateVisual()}
+function start(){if(mode!=='ready')return;mode='playing';$('arena').classList.remove('ready');$('actionZone').className='action-zone playing';sfx.bell();rec(pick(STENO.start));lastTick=performance.now();stage=-1;raf=requestAnimationFrame(loop);updateVisual()}
 function startWindup(urgency){
  const idle=[0,1].filter(i=>cats[i].windup<=0);if(!idle.length)return;
  const go=i=>{const a=cats[i].data.accessory;let W=Math.max(.55,1.2-.55*urgency);if(a==='bolt')W*=.72;if(a==='soup')W*=1.3;cats[i].windup=W;cats[i].feint=a==='tie'&&Math.random()<.4;$(i===0?'tellLeft':'tellRight').textContent=cats[i].feint?'⁉️':'❗'};
@@ -360,7 +371,7 @@ function boop(i){
   combo++;bestCombo=Math.max(bestCombo,combo);
   danger=Math.max(.04,danger-(.12+.025*Math.min(combo,6)));
   c.windup=0;kick($(i===0?'fighterLeft':'fighterRight'),'recoil');
-  popup(combo>1?`BLOCKED ×${combo}!`:'BLOCKED!',i,'good');scatter(5,'tap',i);
+  popup(combo>1?`BLOCKED ×${combo}!`:'BLOCKED!',i,'good');
   hitstopUntil=now+(RM()?0:75);sfx.boop(Math.min(combo,8));if(combo%3===0)sfx.meow();
   rec(fill(pick(STENO.block),i));
  }else{
@@ -402,7 +413,6 @@ function loop(now){
    for(let i=0;i<2;i++){const c=cats[i];if(c.windup>0){c.windup-=dt;if(c.windup<=0){if(c.feint){c.feint=false;c.windup=0}else pounce(i)}}}
   }
  }
- nextCatch-=dt;if(nextCatch<=0&&time>1){nextCatch=rand(2.8,4.8);const ci=Math.random()<.5?0:1;if(cats[ci].windup<=0)say(ci,pick(CATCH),stage===2,1500)}
  if(objectionAt!==null&&time<=objectionAt){objectionAt=null;objection()}
  if(teleportAt!==null&&time<=teleportAt){teleportAt=null;teleport()}
  const ns=time>10?0:time>5?1:2;if(ns!==stage){stage=ns;const l=stageLines();say(0,l[0],ns===2);say(1,l[1],ns===2)}
@@ -417,14 +427,14 @@ function updateVisual(){
  $('meterFill').style.width=(Math.max(0,Math.min(1,danger))*100).toFixed(1)+'%';$('meterTrack').setAttribute('aria-valuenow',Math.round(Math.min(1,danger)*100));
  $('arena').classList.toggle('is-danger',danger>.77&&mode==='playing');$('arena').classList.toggle('is-warm',danger>.55&&danger<=.77&&mode==='playing');
  $('timer').textContent=mode==='ready'?TOTAL:Math.ceil(Math.max(0,time));
- if(mode==='playing'){const dt=$('dangerText');let t,c='danger-text';if(combo>=2){t=`🔥 ${combo}-BOOP COMBO!`;c+=' combo'}else if(danger>.8){t='🚨 THEY’RE GOING TO FIGHT!';c+=' danger'}else if(danger>.55){t='⚠️ TENSIONS RISING!'}else t='💖 ORDER IN THE COURT. FOR NOW.';if(dt.textContent!==t)dt.textContent=t;dt.className=c}
+ if(mode==='playing'){const dt=$('dangerText');let t,c='danger-text';if(combo>=2){t=`🔥 ${combo}-BOOP COMBO!`;c+=' combo'}else if(danger>.8){t='🚨';c+=' danger'}else t='';if(dt.textContent!==t)dt.textContent=t;dt.className=c}
 }
 
 /* ---------- ENDINGS ---------- */
 function end(saved){
  cancelAnimationFrame(raf);cancelWindups();mode=saved?'verdict':'result';updateVisual();
  $('actionZone').className='action-zone done';$('arena').classList.remove('is-danger','is-warm','boxed','frozen');
- roundsPlayed++;save(ROUNDS_KEY,String(roundsPlayed));fineUI();
+ roundsPlayed++;save(ROUNDS_KEY,String(roundsPlayed));fineUI();sfx.gavel();
  if(saved){
   scores.saved++;save(SCORES_KEY,scores);scoreUI();
   $('actionHint').textContent=bestCombo>=4?`Best combo: ${bestCombo}. The cats are both impressed and furious.`:'The cats have stopped swinging. Now they’re just glaring.';
@@ -437,7 +447,7 @@ function end(saved){
   const love=Math.random()<.15,[title,text,emblem]=pick(love?ROMANCE:DISASTERS),type=love?'love':'doom';
   scores[type]++;save(SCORES_KEY,scores);scoreUI();
   $('resultPanel').className='result-panel show '+(love?'love':'ouch');$('resultTitle').textContent=title;$('resultText').textContent=text;
-  $('grudgeText').textContent=love?'The grudge has been dropped. Gross.':'This case is not over. Nothing is ever over.';
+  $('grudgeText').textContent=love?'':'⚠️ Grudge filed. They’ll be back.';
   if(love)delete grudges[pairKey(cats[0].data,cats[1].data)];else grudges[pairKey(cats[0].data,cats[1].data)]=CASES.indexOf(activeCase);save(GRUDGE_KEY,grudges);
   $('resultEmblem').textContent=emblem;$('resultEmblem').className='result-emblem '+(love?'':'spinning');$('arenaResult').classList.add('show');
   $('actionHint').textContent=love?'PLOT TWIST.':'The court has completely lost control.';
@@ -450,7 +460,7 @@ function chooseVerdict(i){
  if(mode!=='verdict')return;mode='result';
  const [,title,text,emblem,grudge]=activeCase.choices[i],k=pairKey(cats[0].data,cats[1].data);
  if(grudge)grudges[k]=CASES.indexOf(activeCase);else delete grudges[k];save(GRUDGE_KEY,grudges);
- $('resultTitle').textContent=title;$('resultText').textContent=text;$('grudgeText').textContent=grudge?`⚠️ ${nm(0)} and ${nm(1)} are holding a grudge. They’ll be back.`:'Case closed. For real this time. Probably.';
+ $('resultTitle').textContent=title;$('resultText').textContent=text;$('grudgeText').textContent=grudge?'⚠️ Grudge filed. They’ll be back.':'';
  $('resultEmblem').textContent=emblem;$('resultEmblem').className='result-emblem';$('arenaResult').classList.add('show');
  $('resultPanel').className='result-panel show';$('verdict').classList.remove('show');$('actionHint').textContent=grudge?'Bold ruling. Terrible, but bold.':'A ruling for the ages. Or for the next five minutes.';
  sfx.gavel();scatter(18,'win');confetti();setTimeout(sfx.win,120);rec(`Ruling entered: “${title.replace(/[!…]/g,'')}”. ${grudge?'Both defendants hissed on the way out.':'Both defendants accepted it, which is deeply suspicious.'}`);
