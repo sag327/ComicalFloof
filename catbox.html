@@ -261,11 +261,11 @@ try{grudges=JSON.parse(localStorage.getItem(GRUDGE_KEY)||'{}')||{}}catch(e){grud
 try{roundsPlayed=Math.max(0,Number(localStorage.getItem(ROUNDS_KEY))||0)}catch(e){}
 try{soundOn=localStorage.getItem('catBoxSound-v1')!=='off'}catch(e){}
 const save=(k,v)=>{try{localStorage.setItem(k,typeof v==='string'?v:JSON.stringify(v))}catch(e){}};
-function readUnlocked(){let data={};try{data=JSON.parse(localStorage.getItem(ORIGINAL_KEY)||'{}')||{}}catch(e){}const found=OTHER.filter(c=>Number(data.counts?.[c.id])>0);if(Number(data.counts?.[LEGEND.id])>0||Number(data.legendCount)>0)found.push(LEGEND);return [...STARTERS,...found]}
+function readUnlocked(){let data={};try{data=JSON.parse(localStorage.getItem(ORIGINAL_KEY)||'{}')||{}}catch(e){}const found=OTHER.filter(c=>Number((data.counts||{})[c.id])>0);if(Number((data.counts||{})[LEGEND.id])>0||Number(data.legendCount)>0)found.push(LEGEND);return [...STARTERS,...found]}
 function esc(s){return String(s).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]))}
 const has=acc=>cats.some(c=>c.data.accessory===acc);
 const nm=i=>cats[i].data.name.replace('LEGENDARY ','');
-const fill=(t,i)=>t.replaceAll('{n}',nm(i));
+const fill=(t,i)=>t.split('{n}').join(nm(i));
 
 /* ---------- SOUND ---------- */
 function ac(){if(!soundOn)return null;try{ctx=ctx||new(window.AudioContext||window.webkitAudioContext)();if(ctx.state==='suspended')ctx.resume();return ctx}catch(e){return null}}
@@ -328,7 +328,7 @@ function prepare(){
  $('caseTitle').textContent=activeCase.title;$('caseClaim').textContent=`💰 CLAIM: ${activeCase.claim}`;$('sunFace').textContent=activeCase.emoji;$('pill').textContent=appeal?'🥊 REMATCH 🥊':'🥊 VS 🥊';
  renderFighters();
  $('speechLeft').textContent=appeal?'YOU AGAIN.':activeCase.lines[0][0];$('speechRight').textContent=appeal?'UNFORTUNATELY.':activeCase.lines[0][1];$('speechLeft').classList.remove('mad');$('speechRight').classList.remove('mad');
- const powers=[...new Set(cats.map(c=>c.data.accessory))].map(a=>POWERS[a]?.hint).filter(Boolean);
+ const powers=[...new Set(cats.map(c=>c.data.accessory))].map(a=>(POWERS[a]||{}).hint).filter(Boolean);
  $('actionHint').textContent=powers.length?powers.join(' '):'When a cat winds up a punch (❗), boop it to block. Booping a calm cat is rude.';
  $('helper').textContent=powers.length?'Boop a cat when it shows ❗ to block the punch. Booping a calm cat is rude.':'Tap the left or right side of the courtroom. Keyboard: ← → to boop, 1 2 3 for items.';
  $('mainButton').textContent='🔔 DING DING! COURT IS IN SESSION';$('mainButton').disabled=false;
