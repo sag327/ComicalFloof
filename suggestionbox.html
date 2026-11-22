@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f8d4e2">
+<meta name="description" content="The Comical Floof suggestion box. Suggestions welcome, probably.">
+<title>Suggestion Box ✦ Comical Floof</title>
+<style>
+:root{--ink:#422746;--paper:#fff9ec;--pink:#ff82ae;--ease:cubic-bezier(.2,.85,.25,1)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:var(--ink);font-family:'Nunito',system-ui,-apple-system,sans-serif;font-weight:800;background:radial-gradient(circle at 7% 19%,#fff1b8 0 4%,transparent 19%),radial-gradient(circle at 90% 14%,#e8c4ff 0 9%,transparent 30%),radial-gradient(circle at 45% 95%,#ffd6d9 0 6%,transparent 28%),linear-gradient(145deg,#ffe1ba 0%,#ffdfed 46%,#dcd3ff 100%);overflow-x:hidden}
+a{color:inherit}button{font:inherit;color:var(--ink);cursor:pointer}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.wrap{max-width:760px;margin:0 auto;padding:15px 18px 40px}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand{display:flex;align-items:center;gap:8px;font-weight:1000;font-size:14px;letter-spacing:.06em;text-decoration:none}
+.brand-star{display:inline-grid;place-items:center;background:#fff8dd;width:31px;height:31px;border:2px solid var(--ink);border-radius:50%;box-shadow:2px 3px 0 var(--ink);transform:rotate(-13deg)}
+.head{position:relative;text-align:center;margin:8px 0 0}.head h1{font-family:'Baloo 2','Nunito',system-ui,sans-serif;font-size:clamp(50px,8.5vw,92px);font-weight:800;letter-spacing:-.055em;line-height:.96;margin:0;color:#fff7c9;-webkit-text-stroke:2.5px var(--ink);paint-order:stroke fill;text-shadow:4px 5px 0 #ed82b8,7px 8px 0 var(--ink);transform:rotate(-2deg)}.tiny-sticker{position:absolute;font-size:32px;pointer-events:none;animation:wiggle 2.1s infinite}.tiny-sticker.a{left:9%;top:6px}.tiny-sticker.b{right:9%;top:18px;animation-direction:reverse}.byline{font-size:12px;letter-spacing:.18em;font-weight:1000;margin:11px 0 0;text-transform:uppercase;color:#835184}
+.mini-btn{display:inline-flex;align-items:center;gap:6px;border:2.5px solid var(--ink);background:#fffaf1;border-radius:30px;box-shadow:2px 3px 0 var(--ink);padding:8px 12px;text-decoration:none;font-size:12px;font-weight:1000}
+
+.catslot{position:fixed;z-index:40;left:50%;bottom:0;width:150px;transform:translateX(-50%);clip-path:inset(-600px -100vw 0 -100vw);pointer-events:none}
+.kitty{transform:translateY(105%);transition:transform .38s cubic-bezier(.25,1.3,.4,1)}
+.catslot.up .kitty{transform:translateY(0)}
+.kitty-svg{display:block;width:100%;height:auto;overflow:visible;transform-origin:50% 90%}
+.kitty .m-open{opacity:0}.kitty.chomp .m-open{opacity:1}.kitty.chomp .m-closed{opacity:0}
+.kitty.sniff .kitty-svg{animation:sniff .35s ease-in-out 3}
+.kitty.bat .k-paw.l{animation:bat .32s ease-in-out 3}
+.kitty.gulp .kitty-svg{animation:gulp .4s ease-out}
+.kitty.blech .kitty-svg{animation:blech .3s ease-in-out 3}
+.k-head{transform-origin:100px 100px}
+.catsays{position:absolute;left:50%;top:-34px;transform:translateX(-50%);width:max-content;max-width:88vw;text-align:center;font:800 15px 'Baloo 2','Nunito',system-ui,sans-serif;background:#fff;border:2.5px solid var(--ink);border-radius:14px;padding:3px 10px;box-shadow:2px 3px 0 var(--ink);opacity:0}
+.catsays.show{animation:say 1.6s ease-out forwards}
+.ball{position:absolute;left:0;top:0;width:36px;height:36px;z-index:50;pointer-events:none;transition:opacity .15s}
+.ball span{display:block;width:100%;height:100%;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff 0 18%,#f1ead9 40%,#d8ccb3 100%);border:2.5px solid var(--ink);clip-path:polygon(50% 0,63% 9%,80% 4%,86% 22%,100% 34%,93% 52%,100% 68%,84% 80%,76% 97%,58% 90%,42% 100%,30% 86%,10% 88%,12% 68%,0 54%,9% 38%,4% 20%,22% 14%,34% 2%);transition:transform .15s}
+
+/* ---------- the desk ---------- */
+.desk{margin-top:22px;background:var(--paper);border:4px solid var(--ink);border-radius:26px;box-shadow:0 10px 0 var(--ink),0 18px 38px #58315d30;padding:16px 18px 10px}
+.prof-row{display:grid;grid-template-columns:140px 1fr;gap:12px;align-items:center}
+.prof-wrap{margin:0;position:relative;text-align:center}
+.prof{width:100%;height:auto;display:block;overflow:visible}
+.prof .p-body{transform-origin:86px 200px;animation:breathe 2.6s ease-in-out infinite}
+.prof .p-head{transform-origin:86px 100px}
+.prof .lid{transform-box:fill-box;transform-origin:50% 100%;animation:blink 5s infinite}
+.prof .blush{opacity:0;transition:opacity .2s}
+.prof .scrib{stroke-dasharray:40;stroke-dashoffset:40}
+.prof .pencil{transform-origin:150px 148px}
+.prof.shake .p-head{animation:shakehead .42s ease-in-out 3}
+.prof.scribble .pencil{animation:scribble .14s linear 6}
+.prof.scribble .scrib{animation:draw .8s linear forwards}
+.prof.pleased .lid{animation:none;transform:scaleY(.45)}
+.prof.pleased .blush{opacity:.9}
+.prof.pleased .p-body{animation:hop .45s ease-out 2}
+.prof.pleased .brow{transform:translateY(-4px)}
+.sigh{position:absolute;left:50%;top:-4px;transform:translateX(-50%);font-size:12px;font-style:italic;opacity:0;pointer-events:none;white-space:nowrap}
+.sigh.show{animation:say 1.4s ease-out forwards}
+.badge{display:inline-block;margin-top:4px;background:#fff;border:2px solid var(--ink);border-radius:8px;padding:3px 7px;font-size:9px;line-height:1.25;font-weight:800;box-shadow:2px 2px 0 var(--ink);transform:rotate(-2deg)}
+.badge b{display:block;font-size:10px;color:#bc4477}
+.bubble{position:relative;margin:0;background:#fff;border:3px solid var(--ink);border-radius:20px;padding:12px 14px;font:800 clamp(16px,2.4vw,19px)/1.25 'Baloo 2','Nunito',system-ui,sans-serif;box-shadow:3px 4px 0 #604168;min-height:58px}
+.bubble:before{content:'';position:absolute;left:-12px;top:22px;width:16px;height:16px;background:#fff;border-left:3px solid var(--ink);border-bottom:3px solid var(--ink);transform:rotate(45deg)}
+.bubble.pop{animation:pop .3s var(--ease)}
+.dym{border:2.5px solid var(--ink);background:#ffe36f;border-radius:10px;padding:1px 9px;font:inherit;box-shadow:2px 2px 0 var(--ink);font-style:italic;touch-action:manipulation}
+.dym:hover{background:#ffd3e7}
+textarea{display:block;width:100%;margin:14px 0 0;min-height:140px;resize:vertical;border:3px solid var(--ink);border-radius:16px;background:#fffdf6;padding:12px 14px;font:700 17px/1.45 'Nunito',system-ui,-apple-system,sans-serif;color:var(--ink);box-shadow:inset 0 3px 0 #42274612;transition:transform .55s var(--ease),opacity .55s,border-radius .55s}
+textarea:focus{outline:3px solid #ff82ae;outline-offset:2px}
+textarea.crumpled{transform:scale(.15) rotate(-35deg);opacity:0;border-radius:50%}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.pad{position:relative;height:118px;margin-top:6px}
+.send{white-space:nowrap;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);min-height:58px;min-width:190px;border:3.5px solid var(--ink);border-radius:18px;background:linear-gradient(180deg,#ffa4cb,#ff73ab);box-shadow:0 6px 0 var(--ink);font:800 24px/1.05 'Baloo 2','Nunito',system-ui,sans-serif;padding:8px 18px;touch-action:manipulation;transition:left .22s var(--ease),top .22s var(--ease)}
+.send.moved{transform:none}
+.send:active:not(:disabled){box-shadow:0 1px 0 var(--ink);translate:0 5px}
+.send:disabled{opacity:.55;cursor:default}
+
+/* ---------- receipt ---------- */
+.receipt{margin-top:22px;text-align:center}
+.paper{max-width:400px;margin:0 auto;background:#fffdf6;border:3px solid var(--ink);border-bottom:0;padding:20px 22px 28px;text-align:left;font-family:'Courier New',ui-monospace,monospace;font-weight:700;box-shadow:4px 6px 0 #42274633;position:relative;transform:rotate(-1deg)}
+.paper:after{content:'';position:absolute;left:-3px;right:-3px;bottom:-12px;height:14px;background:linear-gradient(-45deg,transparent 7px,#fffdf6 0) 0 0/14px 14px,linear-gradient(45deg,transparent 7px,#fffdf6 0) 0 0/14px 14px}
+.r-head{margin:0;text-align:center;font-size:19px;letter-spacing:.06em;border-bottom:2px dashed var(--ink);padding-bottom:10px}
+.r-by{margin:12px 0 8px;font-size:16px}
+dl{margin:0 0 12px;display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:13px}dt{opacity:.7}dd{margin:0}
+.tracker{list-style:none;margin:0;padding:12px 0 0;border-top:2px dashed var(--ink);display:grid;gap:8px;font-size:15px}
+.tracker li{opacity:.35;display:flex;gap:10px;align-items:center}
+.tracker li:before{content:'○';width:18px;text-align:center}
+.tracker li.now{opacity:1}.tracker li.now:before{content:'…';animation:blinkdots .6s steps(2) infinite}
+.tracker li.done{opacity:1}.tracker li.done:before{content:'✓';color:#2f9e6a}
+.again{margin-top:26px;border:3.5px solid var(--ink);border-radius:18px;background:linear-gradient(180deg,#b8f3d5,#8bd8af);box-shadow:0 6px 0 var(--ink);font:800 20px/1.1 'Baloo 2','Nunito',system-ui,sans-serif;padding:14px 20px}
+.again:active{translate:0 5px;box-shadow:0 1px 0 var(--ink)}
+
+.r-fine{margin:16px 0 0;font:700 10px/1.3 'Nunito',system-ui,sans-serif;opacity:.7;text-align:center}
+.back{display:inline-flex;align-items:center;gap:6px;border:2.5px solid var(--ink);background:#fffaf1;border-radius:30px;box-shadow:2px 3px 0 var(--ink);padding:8px 14px;text-decoration:none;font-size:13px;font-weight:1000;margin:10px 0 4px}
+.foot{text-align:center;font-size:12px;margin-top:34px;opacity:.75}
+.foot p{margin:4px 0}.foot .fine{font-size:10px;opacity:.75}
+
+@keyframes wiggle{0%,100%{transform:rotate(-10deg)}50%{transform:rotate(14deg)}}@keyframes wobble{0%,100%{transform:rotate(-1.2deg)}50%{transform:rotate(1.2deg)}}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.02,.985)}}
+@keyframes blink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(2)}}
+@keyframes shakehead{0%,100%{transform:rotate(0)}25%{transform:rotate(-9deg)}75%{transform:rotate(9deg)}}
+@keyframes scribble{0%,100%{transform:translate(0,0)}50%{transform:translate(-5px,3px)}}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes hop{0%,100%{transform:translateY(0)}40%{transform:translateY(-7px)}}
+@keyframes pop{0%{scale:.9}60%{scale:1.04}100%{scale:1}}
+@keyframes say{0%{opacity:0;translate:0 6px}15%{opacity:1;translate:0 -8px}80%{opacity:1;translate:0 -14px}100%{opacity:0;translate:0 -24px}}
+@keyframes burp{0%{opacity:0;scale:.5;translate:0 20px}30%{opacity:1;scale:1.2;translate:6px 0}100%{opacity:0;scale:1;translate:20px -30px}}
+@keyframes sniff{0%,100%{transform:rotate(0) translateY(0)}50%{transform:rotate(-6deg) translateY(6px)}}
+@keyframes bat{0%,100%{transform:translate(0,0)}50%{transform:translate(-14px,-22px)}}
+@keyframes gulp{0%{transform:scale(1)}40%{transform:scale(1.08,.92)}100%{transform:scale(1)}}
+@keyframes blech{0%,100%{transform:rotate(0)}25%{transform:rotate(-7deg)}75%{transform:rotate(7deg)}}
+@keyframes blinkdots{50%{opacity:.2}}
+
+@media(max-width:560px){
+  .wrap{padding:10px 10px 30px}
+  .head h1{font-size:52px}.tiny-sticker{font-size:24px}.tiny-sticker.a{left:2%}.tiny-sticker.b{right:2%}.byline{font-size:10px}
+  .catslot{width:118px}
+  .catsays{font-size:13px}
+  .desk{padding:12px 12px 6px;border-radius:22px;border-width:3px}
+  .prof-row{grid-template-columns:104px 1fr;gap:10px}
+  .badge{font-size:8px;padding:2px 5px}.badge b{font-size:8.5px}
+  .bubble{padding:10px 11px}
+  textarea{font-size:16px;min-height:130px}
+  .send{min-width:170px;font-size:22px}
+}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}}
+</style>
+<style>.cf-home{display:inline-block;margin:0;padding:7px 14px;border:2px solid #422746;border-radius:30px;background:#fffaf1;color:#422746!important;font:800 12px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:.02em;text-decoration:none;box-shadow:2px 3px 0 #422746}.cf-home:hover{background:#fff36f}.cf-homebar{padding:10px 14px 4px;text-align:left;position:relative;z-index:30}.cf-homebar.bottom{text-align:center;padding:18px 14px 26px}</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="nav">
+    <a class="brand" href="index.html"><span class="brand-star">✦</span> COMICAL FLOOF</a>
+  </header>
+
+  <div class="head"><span class="tiny-sticker a">💡</span><h1>SUGGESTION BOX</h1><span class="tiny-sticker b">✉️</span><p class="byline">Tell us what to make next. Staff standing by.</p></div>
+
+  <div class="catslot" id="catslot" aria-hidden="true"><div class="kitty" id="kitty"></div><span class="catsays" id="catsays"></span></div>
+
+  <main>
+    <section class="desk" id="desk" aria-label="Write a suggestion">
+      <div class="prof-row">
+        <figure class="prof-wrap">
+          <svg class="prof" id="prof" viewBox="0 0 170 212" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Professor Misspellington, a disappointed owl with cat ears, a fox tail and duck feet">
+            <path class="p-tail" d="M50 156 C8 160 -2 104 22 70 C30 104 46 126 64 132 Z" fill="#e8843c" stroke="#422746" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M22 70 C14 84 14 98 22 108 C30 96 30 82 22 70 Z" fill="#fff6ea" stroke="#422746" stroke-width="2.5" stroke-linejoin="round"/>
+            <g class="p-feet" fill="#f4a52e" stroke="#422746" stroke-width="2.5" stroke-linejoin="round">
+              <path d="M66 192 L50 208 L62 204 L68 211 L74 204 L86 208 L72 192 Z"/>
+              <path d="M98 192 L84 208 L96 204 L102 211 L108 204 L120 208 L106 192 Z"/>
+            </g>
+            <g class="p-body">
+              <ellipse cx="86" cy="148" rx="48" ry="50" fill="#9c7458" stroke="#422746" stroke-width="3"/>
+              <ellipse cx="86" cy="156" rx="31" ry="37" fill="#ecd9b8"/>
+              <path d="M72 146 l5 5 l5 -5 M90 146 l5 5 l5 -5 M80 162 l5 5 l5 -5 M74 178 l5 5 l5 -5 M94 176 l5 5 l5 -5" fill="none" stroke="#b9987a" stroke-width="2.2" stroke-linecap="round"/>
+              <g class="p-badge"><rect x="57" y="120" width="30" height="19" rx="2.5" fill="#fff" stroke="#422746" stroke-width="2"/><rect x="57" y="120" width="30" height="6" fill="#e0476b"/><path d="M61 131 h22 M61 135 h15" stroke="#9a8aa6" stroke-width="1.6"/></g>
+              <path d="M40 124 C22 144 26 176 46 186 C50 164 50 144 54 128 Z" fill="#7d5a44" stroke="#422746" stroke-width="3" stroke-linejoin="round"/>
+              <g class="p-clip">
+                <rect x="106" y="122" width="42" height="54" rx="4" fill="#c8935a" stroke="#422746" stroke-width="3"/>
+                <rect x="111" y="130" width="32" height="41" fill="#fffdf6"/>
+                <rect x="119" y="117" width="16" height="9" rx="2" fill="#b0aab8" stroke="#422746" stroke-width="2"/>
+                <path d="M115 138 h24 M115 145 h24 M115 152 h18" stroke="#c9b8d6" stroke-width="2"/>
+                <path class="scrib" d="M115 162 q4 -7 8 0 t8 0 t8 0" fill="none" stroke="#e0476b" stroke-width="2.4" stroke-linecap="round"/>
+              </g>
+              <path d="M126 168 C140 172 150 160 146 146 C140 150 132 156 120 158 Z" fill="#7d5a44" stroke="#422746" stroke-width="3" stroke-linejoin="round"/>
+              <g class="pencil"><path d="M150 148 L124 162" stroke="#f2c14e" stroke-width="6" stroke-linecap="round"/><path d="M124 162 L119 165" stroke="#422746" stroke-width="3.5" stroke-linecap="round"/></g>
+            </g>
+            <g class="p-head">
+              <path d="M44 56 L38 10 L72 36 Z" fill="#9c7458" stroke="#422746" stroke-width="3" stroke-linejoin="round"/>
+              <path d="M128 56 L134 10 L100 36 Z" fill="#9c7458" stroke="#422746" stroke-width="3" stroke-linejoin="round"/>
+              <path d="M48 46 L45 22 L63 37 Z" fill="#f2a7b8"/><path d="M124 46 L127 22 L109 37 Z" fill="#f2a7b8"/>
+              <ellipse cx="86" cy="64" rx="47" ry="41" fill="#9c7458" stroke="#422746" stroke-width="3"/>
+              <circle cx="67" cy="62" r="20" fill="#ecd9b8"/><circle cx="105" cy="62" r="20" fill="#ecd9b8"/>
+              <circle cx="67" cy="62" r="12.5" fill="#fff" stroke="#422746" stroke-width="2"/><circle cx="105" cy="62" r="12.5" fill="#fff" stroke="#422746" stroke-width="2"/>
+              <circle class="pupil" cx="68" cy="67" r="5" fill="#422746"/><circle class="pupil" cx="104" cy="67" r="5" fill="#422746"/>
+              <path class="lid" d="M54.5 62 A12.5 12.5 0 0 1 79.5 62 Z" fill="#9c7458" stroke="#422746" stroke-width="2"/>
+              <path class="lid" d="M92.5 62 A12.5 12.5 0 0 1 117.5 62 Z" fill="#9c7458" stroke="#422746" stroke-width="2"/>
+              <path class="brow" d="M52 42 L80 48 M120 42 L92 48" stroke="#422746" stroke-width="4" stroke-linecap="round"/>
+              <ellipse class="blush" cx="52" cy="80" rx="7" ry="4" fill="#f2a7b8"/><ellipse class="blush" cx="120" cy="80" rx="7" ry="4" fill="#f2a7b8"/>
+              <path d="M79 72 L93 72 L86 88 Z" fill="#f4a52e" stroke="#422746" stroke-width="2.2" stroke-linejoin="round"/>
+              <g class="glasses" fill="#ffffff66" stroke="#422746" stroke-width="1.8"><circle cx="81" cy="80" r="5"/><circle cx="91" cy="80" r="5"/><path d="M86 80 h0" /></g>
+            </g>
+          </svg>
+          <span class="sigh" id="sigh">*sigh*</span>
+          <figcaption class="badge"><b>Professor Misspellington</b>Head of Suggestions</figcaption>
+        </figure>
+        <p class="bubble" id="bubble" aria-live="polite"></p>
+      </div>
+      <label class="sr-only" for="note">Your suggestion</label>
+      <textarea id="note" maxlength="800" rows="5" placeholder="Suggest something for the site…" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+      <input type="checkbox" id="botcheck" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="pad" id="pad"><button type="button" class="send" id="send">Submit</button></div>
+    </section>
+
+    <section class="receipt" id="receipt" hidden aria-live="polite">
+      <div class="paper">
+        <p class="r-head">SUGGESTION DIGESTED ✓</p>
+        <p class="r-by">Digested by <b id="rCat">Sir Crumbsalot</b></p>
+        <dl>
+          <dt>Eating style</dt><dd id="rEat"></dd>
+          <dt>Spelling damage</dt><dd id="rStyle"></dd>
+        </dl>
+        <ol class="tracker" id="tracker">
+          <li>Received</li><li>Sniffed</li><li>Debated by cats</li><li>Probably happening</li>
+        </ol>
+        <p class="r-fine">No real cats ate any real paper.</p>
+      </div>
+      <button type="button" class="again" id="again">🐟 Feed the cats another suggestion</button>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p><a class="back" href="index.html">← Back to Comical Floof</a></p>
+    <p>Suggestions are read by the owners, eventually.</p>
+    <p class="fine">Word list from SCOWL (<a href="suggestionbox-words-license.txt">license</a>).</p>
+  </footer>
+</div>
+<script>
+(() => {
+'use strict';
+
+/* =====================================================================
+   PASTE YOUR WEB3FORMS ACCESS KEY BETWEEN THE QUOTES BELOW.
+   It is safe for this key to be public: it is not an email address.
+   Leave it empty and the cats will spit every suggestion back out.
+   ===================================================================== */
+const WEB3FORMS_ACCESS_KEY = 'baec3fc7-740e-4c64-97d8-38106a3f0474';
+
+const $ = id => document.getElementById(id);
+const RM = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const pick = a => a[Math.floor(Math.random() * a.length)];
+const wait = ms => new Promise(r => setTimeout(r, ms));
+
+const ta = $('note'), prof = $('prof'), bubble = $('bubble'), btn = $('send'), pad = $('pad');
+
+/* ---------------- Word list (loads after the page appears) ---------------- */
+let WORDS = null;
+function decodeWords(txt) {
+  const D = '0123456789abcdefghijklmnopqrstuvwxyz', set = new Set();
+  let prev = '';
+  const lines = txt.split('\n');
+  for (let i = 0; i < lines.length; i++) {
+    const l = lines[i];
+    if (!l) continue;
+    const w = prev.slice(0, D.indexOf(l[0])) + l.slice(1);
+    set.add(w); prev = w;
+  }
+  return set;
+}
+function loadWords() {
+  fetch('suggestionbox-words.txt').then(r => { if (!r.ok) throw new Error('no list'); return r.text(); })
+    .then(t => { WORDS = decodeWords(t); })
+    .catch(() => { WORDS = null; });
+}
+if (document.readyState === 'complete') setTimeout(loadWords, 100);
+else window.addEventListener('load', () => setTimeout(loadWords, 100));
+
+/* ---------------- Family-friendly guard (ROT13 so the source stays clean) ---------------- */
+const rot = s => s.replace(/[a-z]/g, c => String.fromCharCode((c.charCodeAt(0) - 84) % 26 + 97));
+const BAD_PARTS = 'shpx shx shd cuhx fuvg fulg phag xhag pbpx xbpx qvpx ovgpu ovpu olgpu ovngpu fyhg juber chffl avtt avte avtn snttbg sntt encr encvfg ergneq gjng jnax cvff cravf crravf intvan qvyqb obbo gvggl gvggvr cbea onfgneq obyybpx qbhpur wvmm anmv uvgyre'.split(' ').map(rot);
+const BAD_WORDS = 'nff nefr nffrf phz xhz snt sntf uryy qnza penc frk frkl nany nahf ubzb fcvp xvxr puvax tbbx jbc pbba wnc gvg gvgf ubr ubrf abo xabo'.split(' ').map(rot);
+function isRude(w) {
+  const pieces = w.toLowerCase().split(/[^a-z]+/).filter(Boolean);
+  const whole = pieces.join('');
+  for (const p of pieces.concat([whole])) {
+    if (BAD_WORDS.indexOf(p) >= 0) return true;
+  }
+  for (const b of BAD_PARTS) if (whole.indexOf(b) >= 0) return true;
+  return false;
+}
+
+/* ---------------- Misspelling styles ---------------- */
+const SOUNDALIKE = {
+  i: 'eye', more: 'moor', games: 'gnomes', game: 'gnome', want: 'wand', new: 'gnu', know: 'no', no: 'know',
+  write: 'right', right: 'rite', great: 'grate', there: 'their', their: 'there', your: 'yore', you: 'ewe',
+  for: 'four', to: 'two', too: 'tutu', be: 'bee', see: 'sea', here: 'hear', would: 'wood', whole: 'hole',
+  site: 'sight', website: 'websight', made: 'maid', meet: 'meat', week: 'weak', way: 'weigh', one: 'won',
+  night: 'knight', hair: 'hare', tail: 'tale', sun: 'son', peace: 'piece', buy: 'bye', by: 'bye', read: 'reed',
+  wait: 'weight', plain: 'plane', mail: 'male', road: 'rode', so: 'sew', our: 'hour', all: 'awl', blue: 'blew',
+  dear: 'deer', flew: 'flu', real: 'reel', sale: 'sail', some: 'sum', where: 'wear', which: 'witch',
+  weather: 'whether', fair: 'fare', poor: 'pour', cats: 'katz', cat: 'kat', page: 'paige', idea: 'eyedea',
+  please: 'pleas', add: 'ad', eight: 'ate', four: 'fore', knew: 'gnu', flower: 'flour', button: 'mutton',
+  suggest: 'sujjest', suggestion: 'sujjestshun', fun: 'fungus', cool: 'kool', thanks: 'thanx', pizza: 'peetza'
+};
+const OLDE = { website: 'webbe-syte', the: 'ye', you: 'thou', your: 'thy', are: 'art', has: 'hath', does: 'doth', old: 'olde', shop: 'shoppe', town: 'towne', my: 'mine', is: 'be' };
+const PHONETIC = [
+  [/ph/g, 'f'], [/tion/g, 'shun'], [/sion/g, 'zhun'], [/gg(?=e)/g, 'jj'], [/ight/g, 'yte'], [/ite/g, 'yte'],
+  [/ough/g, 'uff'], [/ck/g, 'k'], [/qu/g, 'kw'], [/c(?=[eiy])/g, 's'], [/c/g, 'k'], [/x/g, 'ks'], [/wh/g, 'w'],
+  [/^kn/, 'n'], [/ea/g, 'ee'], [/oo/g, 'u'], [/er$/, 'ur'], [/le$/, 'ul'], [/y$/, 'ee'], [/s$/, 'z'], [/ou/g, 'ow']
+];
+const VOWEL_SWAP = { a: 'u', e: 'i', i: 'y', o: 'aw', u: 'oo' };
+
+function phonetic(w) {
+  let r = w;
+  for (const [re, to] of PHONETIC) r = r.replace(re, to);
+  if (r === w) {
+    const idx = [];
+    for (let i = 1; i < w.length; i++) if (VOWEL_SWAP[w[i]]) idx.push(i);
+    if (!idx.length) return null;
+    const i = pick(idx);
+    r = w.slice(0, i) + VOWEL_SWAP[w[i]] + w.slice(i + 1);
+  }
+  return r;
+}
+function stretch(w) {
+  const idx = [];
+  for (let i = 0; i < w.length; i++) if ('aeiouy'.indexOf(w[i]) >= 0) idx.push(i);
+  if (!idx.length) return w + w[w.length - 1];
+  const i = pick(idx), n = 3 + Math.floor(Math.random() * 3);
+  return w.slice(0, i) + w[i].repeat(n) + w.slice(i + 1);
+}
+function soundalike(w) { return SOUNDALIKE[w] || phonetic(w); }
+function olde(w) {
+  if (OLDE[w]) return OLDE[w];
+  const isV = c => 'aeiou'.indexOf(c) >= 0;
+  if (w.length > 3 && w[w.length - 1] === 's' && w[w.length - 2] !== 's') {
+    const base = olde(w.slice(0, -1));
+    return base ? base.replace(/e?$/, 'e') + 's' : null;
+  }
+  let s = w.replace('i', 'y');
+  const last = s[s.length - 1];
+  if (last === 'y' && s.length > 3) s = s.slice(0, -1) + 'ie';
+  else if (!isV(last) && last !== 'y') s = s.length <= 5 && !isV(s[s.length - 2]) ? s + 'e' : (s.length <= 5 ? s + last + 'e' : s + 'e');
+  return s;
+}
+function shuffle(w) {
+  if (w.length < 3) return null;
+  const opts = [];
+  for (let i = 1; i < w.length - 1; i++) if (w[i] !== w[i + 1]) opts.push(i);
+  if (!opts.length) return null;
+  const i = pick(opts);
+  return w.slice(0, i) + w[i + 1] + w[i] + w.slice(i + 2);
+}
+const STYLES = {
+  phonetic: { fn: phonetic, label: 'Phonetic chaos' },
+  stretch: { fn: stretch, label: 'Extra letters' },
+  soundalike: { fn: soundalike, label: 'Sound-alike words' },
+  olde: { fn: olde, label: 'Olde English' },
+  shuffle: { fn: shuffle, label: 'Letter shuffle' }
+};
+let style = pick(Object.keys(STYLES));
+
+function caseLike(orig, r) {
+  if (orig === 'I') return r;
+  if (orig.length > 1 && orig === orig.toUpperCase()) return r.toUpperCase();
+  if (orig[0] !== orig[0].toLowerCase()) return r[0].toUpperCase() + r.slice(1);
+  return r;
+}
+function eligible(word) {
+  if (!WORDS || /[^A-Za-z]/.test(word)) return false;
+  const w = word.toLowerCase();
+  if ((style === 'soundalike' && SOUNDALIKE[w]) || (style === 'olde' && OLDE[w])) return true;
+  return w.length >= 3 && WORDS.has(w);
+}
+function wreck(word) {
+  const w = word.toLowerCase();
+  for (let t = 0; t < 6; t++) {
+    const r = STYLES[style].fn(w);
+    if (r && r !== w && !isRude(r)) return caseLike(word, r);
+  }
+  return null;
+}
+
+/* ---------------- Keeping the original text ---------------- */
+let swaps = {};   // wrecked form -> queue of original words
+function logSwap(wrecked, orig) { (swaps[wrecked] = swaps[wrecked] || []).push(orig); }
+function originalText() {
+  const used = {};
+  return ta.value.replace(/[A-Za-z][A-Za-z'-]*/g, tok => {
+    const q = swaps[tok];
+    if (!q) return tok;
+    const n = used[tok] || 0;
+    if (n >= q.length) return tok;
+    used[tok] = n + 1;
+    return q[n];
+  });
+}
+
+/* ---------------- Professor Misspellington ---------------- */
+let poseTimer = 0, lastShake = 0;
+function pose(name, ms) {
+  prof.classList.remove('shake', 'scribble', 'pleased');
+  void prof.getBoundingClientRect();
+  if (!name) return;
+  prof.classList.add(name);
+  clearTimeout(poseTimer);
+  poseTimer = setTimeout(() => prof.classList.remove(name), ms || 1200);
+}
+function say(text, suggestion) {
+  bubble.textContent = '';
+  const p = document.createElement('span');
+  p.textContent = text;
+  bubble.appendChild(p);
+  if (suggestion) {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'dym'; b.textContent = suggestion;
+    b.addEventListener('pointerdown', e => e.preventDefault());
+    b.addEventListener('click', acceptSuggestion);
+    bubble.appendChild(document.createTextNode(' '));
+    bubble.appendChild(b);
+    bubble.appendChild(document.createTextNode('?'));
+  }
+  bubble.classList.remove('pop'); void bubble.offsetWidth; bubble.classList.add('pop');
+}
+function sigh() {
+  const now = Date.now();
+  if (now - lastShake < 1800) return;
+  lastShake = now;
+  pose('shake', 1300);
+  const s = $('sigh');
+  s.classList.remove('show'); void s.offsetWidth; s.classList.add('show');
+}
+const HELLO = 'Go on. Suggest something. I’ll help.';
+const ASK1 = ['Did you mean:', 'Surely you meant:', 'Did you mean:'];
+const ASK2 = ['I’ll ask again. Did you mean:', 'Ignoring me won’t help. Did you mean:', 'Last chance. Did you mean:'];
+const TOOK_OVER = 'That’s it. I’m fixing them myself.';
+const FIXED = ['Fixed it.', 'You’re welcome.', 'Much better.', 'There.', 'Corrected.'];
+const THANKED = ['Excellent. Much worse.', 'Wonderful. Truly awful.', 'Yes. Perfect.', 'See? Easy.'];
+
+/* ---------------- Escalating chaos ---------------- */
+let pending = null, ignored = 0, autoCount = 0, busy = false, wordsSince = 9;
+const phase = () => (ignored >= 6 ? 3 : ignored >= 3 ? 2 : 1);
+
+function replaceWord(start, end, orig, wrecked) {
+  if (ta.value.slice(start, end) !== orig) {
+    const re = new RegExp('\\b' + orig + '\\b', 'g');
+    let m, found = -1;
+    while ((m = re.exec(ta.value))) found = m.index;
+    if (found < 0) return false;
+    start = found; end = found + orig.length;
+  }
+  ta.setRangeText(wrecked, start, end, 'preserve');
+  logSwap(wrecked, orig);
+  return true;
+}
+function acceptSuggestion() {
+  if (!pending || busy) return;
+  const p = pending; pending = null;
+  if (!replaceWord(p.start, p.end, p.orig, p.wrecked)) { say('Too late. You changed it.'); return; }
+  ignored = 0;
+  pose('pleased', 1100);
+  say(pick(THANKED));
+  ta.focus({ preventScroll: true });
+}
+function handleWord(word, start, end) {
+  wordsSince++;
+  if (!eligible(word)) return;
+  const wrecked = wreck(word);
+  if (!wrecked) { sigh(); return; }
+  ta.setRangeText(wrecked, start, end, 'preserve');
+  logSwap(wrecked, word);
+  pose('pleased', 900);
+  autoCount++;
+  if (autoCount === 1 || autoCount % 3 === 0) say(pick(FIXED));
+}
+ta.addEventListener('input', e => {
+  if (busy) return;
+  const t = e.inputType || '';
+  if (t && t.indexOf('insert') !== 0) return;
+  const caret = ta.selectionStart;
+  if (caret !== ta.selectionEnd) return;
+  const m = ta.value.slice(0, caret).match(/([A-Za-z]+(?:'[A-Za-z]+)?)([^A-Za-z'])$/);
+  if (!m) return;
+  const start = caret - m[0].length;
+  const word = m[1];
+  /* Phone keyboards type in "composition" mode, so wait a tick for the keyboard to finish, then check the word is still there */
+  setTimeout(() => {
+    if (busy || ta.value.slice(start, start + word.length) !== word) return;
+    handleWord(word, start, start + word.length);
+  }, 30);
+});
+
+/* ---------------- The runaway button ---------------- */
+let dodges = 0, suppressUntil = 0, lastDodge = 0;
+const DODGE_TEXT = ['Submit', 'Nope.', 'Too slow.', 'Missed me.'];
+const limit = touch => (touch ? 2 : 3);
+function centerButton() {
+  btn.style.left = ''; btn.style.top = ''; btn.classList.remove('moved');
+  btn.textContent = 'Submit';
+}
+function dodge(touch) {
+  if (busy || dodges >= limit(touch) || Date.now() - lastDodge < 260) return false;
+  dodges++; lastDodge = Date.now();
+  const pr = pad.getBoundingClientRect(), br = btn.getBoundingClientRect();
+  const maxX = Math.max(0, pr.width - br.width - 8), maxY = Math.max(0, pr.height - br.height - 8);
+  const curX = br.left - pr.left;
+  let x = 0, y = 0;
+  for (let t = 0; t < 12; t++) {
+    x = 4 + Math.random() * maxX; y = 4 + Math.random() * maxY;
+    if (Math.abs(x - curX) > br.width * 0.7) break;
+  }
+  btn.classList.add('moved');
+  btn.style.left = Math.round(x) + 'px';
+  btn.style.top = Math.round(y) + 'px';
+  btn.textContent = dodges >= limit(touch) ? 'Fine. Click me.' : DODGE_TEXT[dodges];
+  return true;
+}
+pad.addEventListener('pointermove', e => {
+  if (e.pointerType !== 'mouse') return;
+  const r = btn.getBoundingClientRect();
+  const dx = Math.max(r.left - e.clientX, 0, e.clientX - r.right);
+  const dy = Math.max(r.top - e.clientY, 0, e.clientY - r.bottom);
+  if (Math.hypot(dx, dy) < 36) dodge(false);
+});
+btn.addEventListener('pointerdown', e => {
+  if (e.pointerType === 'mouse') return;
+  if (dodge(true)) { suppressUntil = Date.now() + 600; e.preventDefault(); } else suppressUntil = 0;
+});
+btn.addEventListener('click', e => {
+  if (Date.now() < suppressUntil) { e.preventDefault(); return; }
+  submit();
+});
+
+/* ---------------- The black cats ---------------- */
+const EYES = [['green', '#7bd389'], ['yellow', '#f2d14b'], ['orange', '#f39a3d'], ['blue', '#6cc3f0']];
+const ACCESSORIES = ['hat', 'bowtie', 'monocle', 'crown', 'none'];
+const TAILS = ['fluffy', 'skinny', 'long'];
+const EATING = [['nibble', 'A polite nibble'], ['gobble', 'Gobbled it whole'], ['sniff', 'Suspicious sniff first'], ['play', 'Played with it first']];
+const NAMES = ['Sir Crumbsalot', 'Lady Nibblesworth', 'Professor Chompington', 'Duchess Gobbleton', 'Captain Munchkins',
+  'Count Paperchew', 'Madame Crinkle', 'Lord Scribblescarf', 'Sergeant Snacksalot', 'Miss Tummyrumble',
+  'Admiral Napkin', 'Dame Papyrus', 'Chef Crumple', 'Little Shredward', 'Baroness Wadsworth', 'Mister Inkwhiskers',
+  'The Right Honourable Fuzz', 'Archduke Nomsworth'];
+let lastName = '';
+function newCat() {
+  let name = pick(NAMES);
+  while (name === lastName) name = pick(NAMES);
+  lastName = name;
+  return { name, eye: pick(EYES), acc: pick(ACCESSORIES), tail: pick(TAILS), eat: pick(EATING) };
+}
+function catSVG(c) {
+  const INK = '#4a3d57', FUR = '#211a28', E = c.eye[1];
+  const tails = {
+    skinny: `<path d="M148 196 C188 190 196 140 178 112" fill="none" stroke="${FUR}" stroke-width="9" stroke-linecap="round"/>`,
+    fluffy: `<path d="M146 194 C190 188 200 140 178 108" fill="none" stroke="${INK}" stroke-width="30" stroke-linecap="round"/><path d="M146 194 C190 188 200 140 178 108" fill="none" stroke="${FUR}" stroke-width="24" stroke-linecap="round" stroke-dasharray="2 7"/><path d="M146 194 C190 188 200 140 178 108" fill="none" stroke="${FUR}" stroke-width="20" stroke-linecap="round"/>`,
+    long: `<path d="M148 196 C214 190 214 96 186 62 C166 38 136 30 122 14" fill="none" stroke="${FUR}" stroke-width="11" stroke-linecap="round"/>`
+  };
+  const acc = {
+    none: '',
+    hat: `<g transform="rotate(14 130 40)"><ellipse cx="130" cy="44" rx="24" ry="6" fill="#8a5fd0" stroke="#2b1d2e" stroke-width="3"/><rect x="116" y="12" width="28" height="32" rx="4" fill="#8a5fd0" stroke="#2b1d2e" stroke-width="3"/><rect x="116" y="34" width="28" height="6" fill="#f2c14e"/></g>`,
+    bowtie: `<g stroke="#2b1d2e" stroke-width="3" stroke-linejoin="round"><path d="M100 140 L78 128 L78 152 Z" fill="#e0476b"/><path d="M100 140 L122 128 L122 152 Z" fill="#e0476b"/><circle cx="100" cy="140" r="6" fill="#ff8fb1"/></g>`,
+    monocle: `<circle cx="122" cy="82" r="17" fill="#ffffff22" stroke="#f2c14e" stroke-width="4"/><path d="M137 90 C150 110 146 130 136 146" fill="none" stroke="#f2c14e" stroke-width="2.5" stroke-dasharray="4 3"/>`,
+    crown: `<path d="M72 40 L76 14 L88 28 L100 8 L112 28 L124 14 L128 40 Z" fill="#f2c14e" stroke="#2b1d2e" stroke-width="3" stroke-linejoin="round"/><circle cx="100" cy="30" r="4" fill="#e0476b"/>`
+  };
+  return `<svg class="kitty-svg" viewBox="0 0 220 230" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <g class="k-tail">${tails[c.tail]}</g>
+  <ellipse cx="100" cy="182" rx="58" ry="48" fill="${FUR}" stroke="${INK}" stroke-width="4"/>
+  <g class="k-head">
+    <path d="M52 80 L58 22 L96 56 Z" fill="${FUR}" stroke="${INK}" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M148 80 L142 22 L104 56 Z" fill="${FUR}" stroke="${INK}" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M60 64 L63 36 L82 54 Z" fill="#7d4d6b"/><path d="M140 64 L137 36 L118 54 Z" fill="#7d4d6b"/>
+    <circle cx="100" cy="88" r="52" fill="${FUR}" stroke="${INK}" stroke-width="4"/>
+    <ellipse cx="78" cy="82" rx="12" ry="14" fill="${E}"/><ellipse cx="122" cy="82" rx="12" ry="14" fill="${E}"/>
+    <ellipse cx="78" cy="83" rx="3.5" ry="10" fill="#0d0a10"/><ellipse cx="122" cy="83" rx="3.5" ry="10" fill="#0d0a10"/>
+    <circle cx="82" cy="77" r="3" fill="#fff"/><circle cx="126" cy="77" r="3" fill="#fff"/>
+    <path d="M94 102 L106 102 L100 109 Z" fill="#d98aa6"/>
+    <path class="m-closed" d="M88 114 q6 7 12 0 q6 7 12 0" fill="none" stroke="#6b5878" stroke-width="3" stroke-linecap="round"/>
+    <ellipse class="m-open" cx="100" cy="120" rx="13" ry="11" fill="#5a1f35" stroke="#6b5878" stroke-width="3"/>
+    <path d="M70 108 L40 102 M70 114 L40 118 M130 108 L160 102 M130 114 L160 118" stroke="#6b5878" stroke-width="2.5" stroke-linecap="round"/>
+    ${acc[c.acc]}
+  </g>
+  <ellipse class="k-paw l" cx="80" cy="224" rx="15" ry="9" fill="${FUR}" stroke="${INK}" stroke-width="3"/>
+  <ellipse class="k-paw r" cx="120" cy="224" rx="15" ry="9" fill="${FUR}" stroke="${INK}" stroke-width="3"/>
+</svg>`;
+}
+
+/* ---------------- The feast ---------------- */
+const slot = $('catslot'), kitty = $('kitty'), catSays = $('catsays');
+function abs(el) { const r = el.getBoundingClientRect(); return { x: r.left + window.scrollX, y: r.top + window.scrollY, w: r.width, h: r.height }; }
+function mouthPos() {
+  const r = abs(kitty.querySelector('svg'));
+  return { x: r.x + r.w * (100 / 220), y: r.y + r.h * (120 / 230) };
+}
+function makeBall(x, y) {
+  const b = document.createElement('div');
+  b.className = 'ball'; b.innerHTML = '<span></span>';
+  b.style.transform = `translate(${x}px,${y}px)`;
+  document.body.appendChild(b);
+  return b;
+}
+function fly(ball, from, to, ms, lift) {
+  if (RM()) { ball.style.transform = `translate(${to.x}px,${to.y}px)`; return wait(10); }
+  const mid = { x: (from.x + to.x) / 2, y: Math.min(from.y, to.y) - (lift || 120) };
+  const a = ball.animate([
+    { transform: `translate(${from.x}px,${from.y}px) rotate(0deg)` },
+    { transform: `translate(${mid.x}px,${mid.y}px) rotate(220deg)` },
+    { transform: `translate(${to.x}px,${to.y}px) rotate(400deg)` }
+  ], { duration: ms, easing: 'ease-in-out', fill: 'forwards' });
+  return a.finished ? a.finished.then(() => {}, () => {}) : wait(ms);
+}
+function catLine(text) { catSays.textContent = text; catSays.classList.remove('show'); void catSays.offsetWidth; catSays.classList.add('show'); }
+function scale(ball, s) { ball.firstChild.style.transform = `scale(${s})`; }
+function mouth(open) { kitty.classList.toggle('chomp', open); }
+
+async function eat(cat, ball) {
+  const k = cat.eat[0];
+  if (k === 'sniff') {
+    kitty.classList.add('sniff'); catLine('sniff… sniff…'); await wait(1100); kitty.classList.remove('sniff');
+    mouth(true); await wait(220); scale(ball, 0.4); await wait(200);
+  } else if (k === 'nibble') {
+    for (const s of [0.78, 0.56, 0.34]) { mouth(true); await wait(170); scale(ball, s); mouth(false); await wait(200); }
+    mouth(true); await wait(200);
+  } else if (k === 'play') {
+    const m = mouthPos();
+    kitty.classList.add('bat');
+    await fly(ball, m, { x: m.x - 50, y: m.y + 10 }, 320, 40);
+    await fly(ball, { x: m.x - 50, y: m.y + 10 }, { x: m.x + 50, y: m.y + 10 }, 380, 50);
+    await fly(ball, { x: m.x + 50, y: m.y + 10 }, m, 320, 40);
+    kitty.classList.remove('bat'); mouth(true); await wait(200);
+  } else {
+    mouth(true); await wait(120);
+  }
+  ball.style.opacity = '0';
+  mouth(false);
+  kitty.classList.add('gulp');
+}
+
+async function send(data) {
+  if ($('botcheck').checked) { await wait(600); return { ok: true }; }
+  if (!WEB3FORMS_ACCESS_KEY) { await wait(500); return { ok: false, unplugged: true }; }
+  const ctrl = window.AbortController ? new AbortController() : null;
+  const timer = setTimeout(() => { if (ctrl) ctrl.abort(); }, 15000);
+  const body = {
+    access_key: WEB3FORMS_ACCESS_KEY,
+    subject: 'New suggestion, digested by ' + data.cat.name,
+    from_name: 'comicalFloof Suggestion Box',
+    'What they meant': data.original,
+    'What the Professor did to it': data.wrecked,
+    'Misspelling style': STYLES[data.style].label,
+    'Cat that ate it': data.cat.name
+  };
+  try {
+    const r = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(body),
+      signal: ctrl ? ctrl.signal : undefined
+    });
+    const j = await r.json().catch(() => null);
+    return { ok: !!(r.ok && j && j.success) };
+  } catch (e) {
+    return { ok: false };
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function submit() {
+  if (busy) return;
+  const wrecked = ta.value.trim();
+  if (!wrecked) { sigh(); say('You have to suggest something. That’s the whole job.'); ta.focus(); return; }
+  busy = true;
+  pending = null;
+  const original = originalText().trim();
+  const cat = newCat();
+  kitty.className = 'kitty';
+  kitty.innerHTML = catSVG(cat);
+  btn.disabled = true;
+  ta.readOnly = true;
+  say('Off it goes.');
+
+  const sending = send({ original, wrecked, style, cat });
+
+  ta.blur();
+  await wait(RM() ? 20 : 250);
+  ta.scrollIntoView({ behavior: 'auto', block: 'center' });
+  const start = abs(ta);
+  ta.classList.add('crumpled');
+  await wait(RM() ? 50 : 650);
+  const ball = makeBall(start.x + start.w / 2 - 18, start.y + start.h / 2 - 18);
+  slot.classList.add('up');
+  await wait(RM() ? 50 : 420);
+  const m = mouthPos();
+  const target = { x: m.x - 18, y: m.y - 18 };
+  await fly(ball, { x: start.x + start.w / 2 - 18, y: start.y + start.h / 2 - 18 }, target, 900, 160);
+  await eat(cat, ball);
+  const res = await sending;
+
+  if (res.ok) {
+    await wait(250);
+    kitty.classList.remove('gulp');
+    catLine('*burp*');
+    await wait(1100);
+    await wait(RM() ? 300 : 500);
+    slot.classList.remove('up');
+    ball.remove();
+    await wait(400);
+    showReceipt(cat);
+  } else {
+    kitty.classList.remove('gulp');
+    kitty.classList.add('blech');
+    mouth(true);
+    ball.style.opacity = '1';
+    scale(ball, 1);
+    catLine(res.unplugged ? 'Blech. This page isn’t plugged in yet.' : 'Blech. Try again.');
+    await fly(ball, target, { x: start.x + start.w / 2 - 18, y: start.y + start.h / 2 - 18 }, 800, 140);
+    ball.remove();
+    ta.classList.remove('crumpled');
+    mouth(false);
+    await wait(900);
+    kitty.classList.remove('blech');
+    slot.classList.remove('up');
+    ta.readOnly = false;
+    btn.disabled = false;
+    busy = false;
+    say(res.unplugged ? 'The cat refuses. Someone forgot to plug it in.' : 'Even the cat has standards. Try again.');
+  }
+}
+
+/* ---------------- Receipt and status tracker ---------------- */
+let trackTimers = [];
+function showReceipt(cat) {
+  $('desk').hidden = true;
+  $('rCat').textContent = cat.name;
+  $('rEat').textContent = cat.eat[1];
+  $('rStyle').textContent = STYLES[style].label;
+  const steps = Array.prototype.slice.call(document.querySelectorAll('#tracker li'));
+  steps.forEach(li => { li.className = ''; });
+  $('receipt').hidden = false;
+  $('receipt').scrollIntoView({ behavior: RM() ? 'auto' : 'smooth', block: 'start' });
+  steps.forEach((li, i) => {
+    trackTimers.push(setTimeout(() => {
+      if (i > 0) steps[i - 1].className = 'done';
+      li.className = i === steps.length - 1 ? 'done' : 'now';
+    }, 500 + i * 1300));
+  });
+}
+function reset() {
+  trackTimers.forEach(clearTimeout); trackTimers = [];
+  $('receipt').hidden = true;
+  $('desk').hidden = false;
+  ta.value = ''; ta.readOnly = false; ta.classList.remove('crumpled');
+  swaps = {}; pending = null; ignored = 0; autoCount = 0; dodges = 0; wordsSince = 9;
+  style = pick(Object.keys(STYLES));
+  centerButton(); btn.disabled = false; busy = false;
+  pose(null);
+  say('Back for more? Wonderful. Type away.');
+  $('desk').scrollIntoView({ behavior: RM() ? 'auto' : 'smooth', block: 'start' });
+  ta.focus({ preventScroll: true });
+}
+$('again').addEventListener('click', reset);
+
+say(HELLO);
+})();
+</script>
+</body>
+</html>
