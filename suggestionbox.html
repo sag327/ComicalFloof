@@ -458,23 +458,13 @@ function acceptSuggestion() {
 function handleWord(word, start, end) {
   wordsSince++;
   if (!eligible(word)) return;
-  if (phase() < 3 && (wordsSince < 3 || Math.random() < 0.6)) { sigh(); return; }
-  if (phase() === 3 && Math.random() < 0.5) { sigh(); return; }
   const wrecked = wreck(word);
   if (!wrecked) { sigh(); return; }
-  if (pending) { ignored++; pending = null; if (phase() === 3) say(TOOK_OVER); }
-  if (phase() === 3) {
-    ta.setRangeText(wrecked, start, end, 'preserve');
-    logSwap(wrecked, word);
-    pose('pleased', 900);
-    autoCount++;
-    if (autoCount > 1 && autoCount % 2 === 0) say(pick(FIXED));
-    return;
-  }
-  pending = { start, end, orig: word, wrecked };
-  wordsSince = 0;
-  pose('scribble', 900);
-  say(pick(phase() === 2 ? ASK2 : ASK1), wrecked);
+  ta.setRangeText(wrecked, start, end, 'preserve');
+  logSwap(wrecked, word);
+  pose('pleased', 900);
+  autoCount++;
+  if (autoCount === 1 || autoCount % 3 === 0) say(pick(FIXED));
 }
 ta.addEventListener('input', e => {
   if (busy) return;
