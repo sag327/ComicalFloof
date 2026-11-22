@@ -64,8 +64,10 @@
   @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 </style>
 <style>.cf-suggest{display:inline-block;margin:12px 4px 4px;padding:7px 13px;border:2px solid #422746;border-radius:30px;background:#fff36f;color:#422746!important;font:800 12px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:0;text-decoration:none!important;text-transform:none;box-shadow:2px 3px 0 #422746;animation:cfwob 2.6s ease-in-out infinite;white-space:nowrap}.cf-suggest:hover,.cf-suggest:focus-visible{animation-duration:.45s}@keyframes cfwob{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}@media(prefers-reduced-motion:reduce){.cf-suggest{animation:none}}</style>
+<style>.cf-home{display:inline-block;margin:0;padding:7px 14px;border:2px solid #422746;border-radius:30px;background:#fffaf1;color:#422746!important;font:800 12px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:.02em;text-decoration:none;box-shadow:2px 3px 0 #422746}.cf-home:hover{background:#fff36f}.cf-homebar{padding:10px 14px 4px;text-align:left;position:relative;z-index:30}.cf-homebar.bottom{text-align:center;padding:18px 14px 26px}</style>
 </head>
 <body>
+<div class="cf-homebar"><a class="cf-home" href="index.html">✦ Comical Floof</a></div>
 <div id="confetti" aria-hidden="true"></div>
 <div class="wrap">
   <header class="topbar">
@@ -233,5 +235,6 @@ document.querySelectorAll('.filter').forEach(button=>button.addEventListener('cl
 $('#resetCollection').addEventListener('click',()=>{if(window.confirm('Erase all your discovered cats, pizzas, and bag-opening history on this device?')){state={opens:0,counts:{},legendCount:0,last:null};save();stats();renderGallery();$('#revealCard').className='discovery-card unopened';$('#revealCard').innerHTML='<div class="card-ribbon">The Great Unknown</div><div class="mystery-art" aria-hidden="true">?</div><div class="card-details"><h2 class="card-name">Only one way to find out</h2><p class="card-description">Go on. Open the bag. Nothing could possibly go wrong.</p></div>';$('#openAgain').classList.add('hidden');$('#seeCollection').classList.add('hidden');$('#revealStatus').textContent='AWAITING BAG';$('#bagMessage').innerHTML='Absolutely <span>free.</span> Probably not haunted.';}});
 stats();renderGallery();if(byId[state.last])renderReveal(byId[state.last],false,true);
 </script>
+<div class="cf-homebar bottom"><a class="cf-home" href="index.html">← Back to Comical Floof</a></div>
 </body>
 </html>
