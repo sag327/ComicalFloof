@@ -127,7 +127,6 @@ dl{margin:0 0 12px;display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font
 <div class="wrap">
   <header class="nav">
     <a class="brand" href="index.html"><span class="brand-star">✦</span> COMICAL FLOOF</a>
-    <a class="mini-btn" href="catbox.html">🥊 Cat Box</a>
   </header>
 
   <div class="head"><span class="tiny-sticker a">💡</span><h1>SUGGESTION BOX</h1><span class="tiny-sticker b">✉️</span><p class="byline">Tell us what to make next. Staff standing by.</p></div>
@@ -676,8 +675,7 @@ async function submit() {
     kitty.classList.remove('gulp');
     catLine('*burp*');
     await wait(1100);
-    catLine('Thank you. I am ' + cat.name + '.');
-    await wait(RM() ? 400 : 2100);
+    await wait(RM() ? 300 : 500);
     slot.classList.remove('up');
     ball.remove();
     await wait(400);
