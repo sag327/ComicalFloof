@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f8d4e2">
+<meta name="description" content="The Comical Floof suggestion box. Suggestions welcome, probably.">
+<title>Suggestion Box ✦ Comical Floof</title>
+<link rel="stylesheet" href="suggestions.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="nav">
+    <a class="brand" href="../index.html"><span class="brand-star">✦</span> COMICAL FLOOF</a>
+    <a class="mini-btn" href="../catbox.html">🥊 Cat Box</a>
+  </header>
+
+  <h1 class="sr-only">Suggestion Box</h1>
+
+  <section class="stage" id="stage" aria-hidden="true">
+    <div class="sbox">
+      <div class="catslot" id="catslot">
+        <div class="kitty" id="kitty"></div>
+        <span class="catsays" id="catsays"></span>
+        <span class="burp" id="burp">*burp*</span>
+      </div>
+      <div class="sbox-lid"><span class="slot"></span></div>
+      <div class="sbox-front"><p class="sign">Suggestions Welcome,<small>Probably.</small></p></div>
+    </div>
+  </section>
+
+  <main>
+    <section class="desk" id="desk" aria-label="Write a suggestion">
+      <div class="prof-row">
+        <figure class="prof-wrap">
+          <svg class="prof" id="prof" viewBox="0 0 170 212" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Professor Misspellington, a disappointed owl with cat ears, a fox tail and duck feet">
+            <path class="p-tail" d="M50 156 C8 160 -2 104 22 70 C30 104 46 126 64 132 Z" fill="#e8843c" stroke="#422746" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M22 70 C14 84 14 98 22 108 C30 96 30 82 22 70 Z" fill="#fff6ea" stroke="#422746" stroke-width="2.5" stroke-linejoin="round"/>
+            <g class="p-feet" fill="#f4a52e" stroke="#422746" stroke-width="2.5" stroke-linejoin="round">
+              <path d="M66 192 L50 208 L62 204 L68 211 L74 204 L86 208 L72 192 Z"/>
+              <path d="M98 192 L84 208 L96 204 L102 211 L108 204 L120 208 L106 192 Z"/>
+            </g>
+            <g class="p-body">
+              <ellipse cx="86" cy="148" rx="48" ry="50" fill="#9c7458" stroke="#422746" stroke-width="3"/>
+              <ellipse cx="86" cy="156" rx="31" ry="37" fill="#ecd9b8"/>
+              <path d="M72 146 l5 5 l5 -5 M90 146 l5 5 l5 -5 M80 162 l5 5 l5 -5 M74 178 l5 5 l5 -5 M94 176 l5 5 l5 -5" fill="none" stroke="#b9987a" stroke-width="2.2" stroke-linecap="round"/>
+              <g class="p-badge"><rect x="57" y="120" width="30" height="19" rx="2.5" fill="#fff" stroke="#422746" stroke-width="2"/><rect x="57" y="120" width="30" height="6" fill="#e0476b"/><path d="M61 131 h22 M61 135 h15" stroke="#9a8aa6" stroke-width="1.6"/></g>
+              <path d="M40 124 C22 144 26 176 46 186 C50 164 50 144 54 128 Z" fill="#7d5a44" stroke="#422746" stroke-width="3" stroke-linejoin="round"/>
+              <g class="p-clip">
+                <rect x="106" y="122" width="42" height="54" rx="4" fill="#c8935a" stroke="#422746" stroke-width="3"/>
+                <rect x="111" y="130" width="32" height="41" fill="#fffdf6"/>
+                <rect x="119" y="117" width="16" height="9" rx="2" fill="#b0aab8" stroke="#422746" stroke-width="2"/>
+                <path d="M115 138 h24 M115 145 h24 M115 152 h18" stroke="#c9b8d6" stroke-width="2"/>
+                <path class="scrib" d="M115 162 q4 -7 8 0 t8 0 t8 0" fill="none" stroke="#e0476b" stroke-width="2.4" stroke-linecap="round"/>
+              </g>
+              <path d="M126 168 C140 172 150 160 146 146 C140 150 132 156 120 158 Z" fill="#7d5a44" stroke="#422746" stroke-width="3" stroke-linejoin="round"/>
+              <g class="pencil"><path d="M150 148 L124 162" stroke="#f2c14e" stroke-width="6" stroke-linecap="round"/><path d="M124 162 L119 165" stroke="#422746" stroke-width="3.5" stroke-linecap="round"/></g>
+            </g>
+            <g class="p-head">
+              <path d="M44 56 L38 10 L72 36 Z" fill="#9c7458" stroke="#422746" stroke-width="3" stroke-linejoin="round"/>
+              <path d="M128 56 L134 10 L100 36 Z" fill="#9c7458" stroke="#422746" stroke-width="3" stroke-linejoin="round"/>
+              <path d="M48 46 L45 22 L63 37 Z" fill="#f2a7b8"/><path d="M124 46 L127 22 L109 37 Z" fill="#f2a7b8"/>
+              <ellipse cx="86" cy="64" rx="47" ry="41" fill="#9c7458" stroke="#422746" stroke-width="3"/>
+              <circle cx="67" cy="62" r="20" fill="#ecd9b8"/><circle cx="105" cy="62" r="20" fill="#ecd9b8"/>
+              <circle cx="67" cy="62" r="12.5" fill="#fff" stroke="#422746" stroke-width="2"/><circle cx="105" cy="62" r="12.5" fill="#fff" stroke="#422746" stroke-width="2"/>
+              <circle class="pupil" cx="68" cy="67" r="5" fill="#422746"/><circle class="pupil" cx="104" cy="67" r="5" fill="#422746"/>
+              <path class="lid" d="M54.5 62 A12.5 12.5 0 0 1 79.5 62 Z" fill="#9c7458" stroke="#422746" stroke-width="2"/>
+              <path class="lid" d="M92.5 62 A12.5 12.5 0 0 1 117.5 62 Z" fill="#9c7458" stroke="#422746" stroke-width="2"/>
+              <path class="brow" d="M52 42 L80 48 M120 42 L92 48" stroke="#422746" stroke-width="4" stroke-linecap="round"/>
+              <ellipse class="blush" cx="52" cy="80" rx="7" ry="4" fill="#f2a7b8"/><ellipse class="blush" cx="120" cy="80" rx="7" ry="4" fill="#f2a7b8"/>
+              <path d="M79 72 L93 72 L86 88 Z" fill="#f4a52e" stroke="#422746" stroke-width="2.2" stroke-linejoin="round"/>
+              <g class="glasses" fill="#ffffff66" stroke="#422746" stroke-width="1.8"><circle cx="81" cy="80" r="5"/><circle cx="91" cy="80" r="5"/><path d="M86 80 h0" /></g>
+            </g>
+          </svg>
+          <span class="sigh" id="sigh">*sigh*</span>
+          <figcaption class="badge"><b>Professor Misspellington</b>Chief Spell Wrecker</figcaption>
+        </figure>
+        <p class="bubble" id="bubble" aria-live="polite"></p>
+      </div>
+      <label class="sr-only" for="note">Your suggestion</label>
+      <textarea id="note" maxlength="800" rows="5" placeholder="Suggest something for the site…" autocomplete="off" spellcheck="false"></textarea>
+      <input type="checkbox" id="botcheck" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="pad" id="pad"><button type="button" class="send" id="send">Submit</button></div>
+    </section>
+
+    <section class="receipt" id="receipt" hidden aria-live="polite">
+      <div class="paper">
+        <p class="r-head">SUGGESTION DIGESTED ✓</p>
+        <p class="r-by">Digested by <b id="rCat">Sir Crumbsalot</b></p>
+        <dl>
+          <dt>Eating style</dt><dd id="rEat"></dd>
+          <dt>Spelling damage</dt><dd id="rStyle"></dd>
+        </dl>
+        <ol class="tracker" id="tracker">
+          <li>Received</li><li>Sniffed</li><li>Debated by cats</li><li>Probably happening</li>
+        </ol>
+      </div>
+      <button type="button" class="again" id="again">🐟 Feed the cats another suggestion</button>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>A suspicious part of <a href="../index.html">Comical Floof</a>. Suggestions are read by the owners, eventually, after the cats are done.</p>
+    <p class="fine">Word list from SCOWL (<a href="words-license.txt">license</a>). No real cats ate any real paper.</p>
+  </footer>
+</div>
+<script src="suggestions.js"></script>
+</body>
+</html>

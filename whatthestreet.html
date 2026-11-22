@@ -26,6 +26,7 @@
     @media(max-width:710px){.topbar{padding:12px;align-items:flex-start;gap:8px}.brand{padding:13px 13px 14px;border-radius:12px;max-width:228px;box-shadow:3px 3px 0 var(--ink)}.brand h1{font-size:27px;letter-spacing:-1.4px}.brand p{font-size:10px;margin-top:5px}.top-actions{display:flex;flex-direction:column;align-items:flex-end;gap:7px}.pill{padding:9px 11px;font-size:11px;box-shadow:2px 2px 0 var(--ink)}.pill .emoji{font-size:13px}.pill.secondary-action{display:none}.creator-credit{left:12px;bottom:52px;padding:5px 8px;font-size:10px}.creator-credit small{font-size:9px}.status{left:12px;bottom:12px;max-width:260px;font-size:10px;padding:8px 10px}.result{right:12px;bottom:11px;width:calc(100vw - 24px);padding:17px 19px;box-shadow:4px 4px 0 var(--ink)}.result h2{font-size:34px}.result .distance{margin:12px 0}.result .joke{min-height:0}.result .fine{font-size:9px}.result.open~.status{display:none}.instruction{top:44%;font-size:11px;white-space:normal;text-align:center;max-width:80%}}
     @media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important;animation:none!important}}
   </style>
+<style>.cf-suggest{display:inline-block;margin:12px 4px 4px;padding:7px 13px;border:2px solid #422746;border-radius:30px;background:#fff36f;color:#422746!important;font:800 12px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:0;text-decoration:none!important;text-transform:none;box-shadow:2px 3px 0 #422746;animation:cfwob 2.6s ease-in-out infinite;white-space:nowrap}.cf-suggest:hover,.cf-suggest:focus-visible{animation-duration:.45s}@keyframes cfwob{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}@media(prefers-reduced-motion:reduce){.cf-suggest{animation:none}}</style>
 </head>
 <body>
   <div id="map" role="application" aria-label="Interactive map of the United States; click to locate a strange street name"></div>
@@ -35,7 +36,7 @@
       <button class="pill hot" id="random"><span class="emoji">🎲</span> Surprise me</button>
       <button class="pill secondary-action" id="reset"><span class="emoji">🇺🇸</span> Whole country</button>
       <button class="pill" id="about" aria-label="About this project"><span class="emoji">?</span> About</button>
-    </nav>
+    <a class="cf-suggest" href="suggestions/index.html">💡 Suggest things. We dare you.</a></nav>
   </header>
   <div class="instruction" id="instruction">👇 Click anywhere. Find nearby nonsense.</div>
   <aside class="result" id="result" aria-live="polite" aria-label="Closest ridiculous street result">
