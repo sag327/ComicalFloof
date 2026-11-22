@@ -202,7 +202,7 @@ dl{margin:0 0 12px;display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font
         <p class="bubble" id="bubble" aria-live="polite"></p>
       </div>
       <label class="sr-only" for="note">Your suggestion</label>
-      <textarea id="note" maxlength="800" rows="5" placeholder="Suggest something for the site…" autocomplete="off" spellcheck="false"></textarea>
+      <textarea id="note" maxlength="800" rows="5" placeholder="Suggest something for the site…" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
       <input type="checkbox" id="botcheck" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
       <div class="pad" id="pad"><button type="button" class="send" id="send">Submit</button></div>
     </section>
@@ -477,7 +477,7 @@ function handleWord(word, start, end) {
   say(pick(phase() === 2 ? ASK2 : ASK1), wrecked);
 }
 ta.addEventListener('input', e => {
-  if (busy || e.isComposing) return;
+  if (busy) return;
   const t = e.inputType || '';
   if (t && t.indexOf('insert') !== 0) return;
   const caret = ta.selectionStart;
@@ -485,7 +485,12 @@ ta.addEventListener('input', e => {
   const m = ta.value.slice(0, caret).match(/([A-Za-z]+(?:'[A-Za-z]+)?)([^A-Za-z'])$/);
   if (!m) return;
   const start = caret - m[0].length;
-  handleWord(m[1], start, start + m[1].length);
+  const word = m[1];
+  /* Phone keyboards type in "composition" mode, so wait a tick for the keyboard to finish, then check the word is still there */
+  setTimeout(() => {
+    if (busy || ta.value.slice(start, start + word.length) !== word) return;
+    handleWord(word, start, start + word.length);
+  }, 30);
 });
 
 /* ---------------- The runaway button ---------------- */
